@@ -518,6 +518,6 @@ US4 → US5 → US6 → US7 → US8 → US9 → US10 → Polish → producción 
 - [P] = otro archivo y sin dependencias pendientes.
 - [USn] = trazabilidad con las historias del spec.
 - Cada historia se puede probar sola en su checkpoint.
-- El proyecto todavía no es un repositorio git. Si el dueño decide crear uno, hacer commits por
-  tarea o por grupo lógico.
+- El código está en el repositorio privado `SebastianTorresG/percha` (desde el 2026-10-30). Hacer
+  commits por tarea o por grupo lógico.
 - Correr `/speckit-analyze` antes de `/speckit-implement` (constitución, *Flujo de trabajo*).

@@ -157,7 +157,7 @@ Al dueño ya se le explicó qué es un spike.
 - Presentar los trade-offs reales con evidencia y dejar que el dueño decida.
 - No dejar bugs conocidos como "fuera de alcance".
 - Documentar lo verificado en los artefactos de Spec Kit.
-- El proyecto todavía no es un repositorio git.
+- El código está en el repositorio privado https://github.com/SebastianTorresG/percha (rama `main`).
 
 ## US1 Respaldo (2026-10-26), detenido a pedido del dueño para ahorrar créditos
 
@@ -166,4 +166,5 @@ Al dueño ya se le explicó qué es un spike.
 - Hallazgo: WebKit no guarda Blob en IndexedDB en un contexto efímero. El proyecto `navegador` ahora usa un contexto persistente y corre en serie.
 - Cambio de contrato: `manifest.imagenes[].creada`, para que la ida y vuelta sea exacta. El lector acepta una carpeta raíz y `__MACOSX/`. Ya está en `contracts/respaldo.md` y en research R-10 y R-14.
 - Probado en el navegador (2026-10-30): Hoy muestra el aviso de 01b con una prenda y sin respaldo; Ajustes se ve como 09 en claro y oscuro.
-- Pendiente: publicar la previsualización con US1, T056 en el iPhone y decidir M4 (aviso cuando nunca se respaldó; hoy avisa en cuanto hay una prenda).
+- Previsualización con US1 publicada el 2026-10-30 en https://percha-preview.percha-spike-recorte.workers.dev (versión b05a506a).
+- Pendiente: T056 en el iPhone y decidir M4 (aviso cuando nunca se respaldó; hoy avisa en cuanto hay una prenda).
