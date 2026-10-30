@@ -506,6 +506,19 @@ Límites esperados (SC-009): 300 prendas, 5 maniquíes y 200 outfits.
   (ahora `injectThemeColor: false`), y el puerto por defecto de Vitest en modo navegador (63315)
   puede caer en un rango que Windows reserva para Hyper-V (`vitest.config.ts` usa el 4175).
 
+### Hallazgos de las pruebas contra la app publicada (2026-10-30, tarde)
+
+- **El tema antes del primer pintado se mide en el primer cuadro, no en `DOMContentLoaded`.** El
+  build pone `<script type="module">` antes del `<link>` del CSS. Con la red real, el JS llegó en
+  118 ms y el CSS en 181 ms, y WebKit disparó `DOMContentLoaded` sin estilos (fondo transparente).
+  Medido con el CSS retrasado 1,5 s: `DOMContentLoaded` a los ~85 ms sin estilos, pero ni
+  `requestAnimationFrame` ni `first-contentful-paint` ocurren hasta que llega el CSS (~1540 ms), ya
+  con el fondo del tema. O sea, no hay parpadeo; la prueba A1.3/A1.4 ahora retrasa el CSS siempre
+  y mide en el primer cuadro (T174).
+- **Un toque que empieza en el scrim y termina en la hoja** (por ejemplo, mientras la hoja sube) no
+  la cierra, porque el `click` va al contenedor de los dos, pero el `mousedown` sí movía el foco
+  fuera de la hoja. El scrim cancela su `mousedown` (T173, prueba A5.9).
+
 ## R-15. Interfaz para el anclaje por pose en v2
 
 - **Decisión**: el Armador depende de la interfaz `TryOnRenderer`

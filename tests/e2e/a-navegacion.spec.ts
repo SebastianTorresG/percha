@@ -18,16 +18,27 @@ for (const [esquema, tema, serif] of [
     test.use({ colorScheme: esquema });
 
     test(`A1.3/A1.4/A2.4 el tema ${tema} ya está antes del primer pintado`, async ({ page }) => {
+      // El JS puede llegar antes que el CSS (el build pone el <script> primero) y entonces
+      // DOMContentLoaded ocurre sin estilos. Lo que importa es el primer cuadro, que WebKit no
+      // dibuja hasta tener el CSS del <head>. Con el CSS siempre lento, ese caso se prueba en
+      // cada corrida y no depende de la red.
+      await page.route('**/*.css', async (ruta) => {
+        await new Promise((listo) => setTimeout(listo, 1000));
+        await ruta.continue();
+      });
       await page.addInitScript(() => {
         document.addEventListener('DOMContentLoaded', () => {
-          const w = window as unknown as { __alCargar: unknown };
-          w.__alCargar = { tema: document.documentElement.dataset.theme, fondo: getComputedStyle(document.body).backgroundColor };
+          const w = window as unknown as { __primerCuadro: unknown };
+          const tema = document.documentElement.dataset.theme;
+          requestAnimationFrame(() => {
+            w.__primerCuadro = { tema, fondo: getComputedStyle(document.body).backgroundColor };
+          });
         });
       });
       await abrir(page);
-      const alCargar = await page.evaluate(() => (window as unknown as { __alCargar: { tema: string; fondo: string } }).__alCargar);
-      expect(alCargar.tema).toBe(tema);
-      expect(alCargar.fondo).toBe(tema === 'claro' ? 'rgb(244, 235, 230)' : 'rgb(15, 14, 13)');
+      const primerCuadro = await page.evaluate(() => (window as unknown as { __primerCuadro: { tema: string; fondo: string } }).__primerCuadro);
+      expect(primerCuadro.tema).toBe(tema);
+      expect(primerCuadro.fondo).toBe(tema === 'claro' ? 'rgb(244, 235, 230)' : 'rgb(15, 14, 13)');
       // Una sola meta, la que actualiza el script del tema (T008).
       await expect(page.locator('meta[name="theme-color"]')).toHaveCount(1);
       await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', tema === 'claro' ? '#f4ebe6' : '#0f0e0d');
