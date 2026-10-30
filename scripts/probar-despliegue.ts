@@ -18,6 +18,18 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const URL_PREVIEW = 'https://percha-preview.percha-spike-recorte.workers.dev';
 const RESULTADO_JSON = 'test-results/resultado-pruebas.json';
+/** URL, versión y commit de la última corrida, para que `--solo-reporte` los repita. */
+const CORRIDA_JSON = 'test-results/corrida.json';
+
+interface Corrida {
+  url: string;
+  version?: string;
+  desplegada: boolean;
+  codigo: number;
+  rama?: string;
+  commit?: string;
+  sinCommit?: string[];
+}
 
 const argumentos = process.argv.slice(2);
 const corte = argumentos.indexOf('--playwright');
@@ -39,6 +51,11 @@ function correr(comando: string, args: string[], env: Record<string, string> = {
     proceso.stderr.on('data', copiar);
     proceso.on('close', (codigo) => listo({ codigo: codigo ?? 1, salida }));
   });
+}
+
+/** JSON de un archivo; sin el BOM que agregan algunas herramientas de Windows. */
+function leerJson<T>(ruta: string): T {
+  return JSON.parse(readFileSync(ruta, 'utf8').replace(/^﻿/, '')) as T;
 }
 
 const sinFinDeLinea = (texto: string) => texto.replace(/\r\n/g, '\n');
@@ -104,24 +121,38 @@ function git(args: string[]): Promise<string> {
     const proceso = spawn('git', args, { shell: true });
     let salida = '';
     proceso.stdout.on('data', (t: Buffer) => (salida += t.toString()));
-    proceso.on('close', () => listo(salida.trim()));
+    // Solo el final: `git status --porcelain` empieza con un espacio que es parte del formato.
+    proceso.on('close', () => listo(salida.trimEnd()));
   });
 }
 
-async function escribirReporte(datos: { url: string; version?: string; desplegada: boolean; codigo: number }): Promise<string> {
+/** Rama, commit y archivos sin commit en este momento (el estado del código que se prueba). */
+async function estadoDelCodigo(): Promise<Pick<Corrida, 'rama' | 'commit' | 'sinCommit'>> {
+  return {
+    rama: await git(['rev-parse', '--abbrev-ref', 'HEAD']),
+    commit: await git(['rev-parse', '--short', 'HEAD']),
+    sinCommit: (await git(['status', '--porcelain']))
+      .split('\n')
+      .filter(Boolean)
+      .map((l) => l.slice(3)),
+  };
+}
+
+async function escribirReporte(datos: Corrida): Promise<string> {
   const destino = datos.desplegada ? 'docs/reportes/pruebas-desplegada.md' : 'docs/reportes/pruebas-local.md';
   mkdirSync('docs/reportes', { recursive: true });
   const lineas: string[] = [];
-  const fecha = new Date().toLocaleString('es', { dateStyle: 'long', timeStyle: 'short' });
-  const rama = await git(['rev-parse', '--abbrev-ref', 'HEAD']);
-  const commit = await git(['rev-parse', '--short', 'HEAD']);
-  const cambios = await git(['status', '--porcelain']);
+  const fecha = new Date(existsSync(RESULTADO_JSON) ? leerJson<Informe>(RESULTADO_JSON).stats.startTime : Date.now());
+  const { rama, commit, sinCommit = [] } = datos.commit ? datos : await estadoDelCodigo();
 
-  lineas.push(`# Pruebas de Percha ${datos.desplegada ? 'publicada' : 'local'} — ${fecha}`, '');
+  lineas.push(`# Pruebas de Percha ${datos.desplegada ? 'publicada' : 'local'} — ${fecha.toLocaleString('es', { dateStyle: 'long', timeStyle: 'short' })}`, '');
   lineas.push('Generado por `npm run test:desplegada` (scripts/probar-despliegue.ts). Se reescribe en cada corrida.', '');
   lineas.push(`- **URL**: ${datos.url}`);
-  lineas.push(`- **Despliegue**: ${datos.version ? `versión ${datos.version} publicada en esta corrida` : 'sin desplegar en esta corrida'}`);
-  lineas.push(`- **Código**: rama \`${rama}\`, commit \`${commit}\`${cambios ? ' **con cambios sin commit**' : ''}`);
+  lineas.push(`- **Despliegue**: ${datos.version ? `versión ${datos.version}, publicada en esta corrida` : 'sin desplegar en esta corrida'}`);
+  const archivos = sinCommit.map((a) => `\`${a}\``);
+  lineas.push(
+    `- **Código probado**: rama \`${rama}\`, commit \`${commit}\`${archivos.length ? ` **con cambios sin commit** en ${archivos.slice(0, 6).join(', ')}${archivos.length > 6 ? ', …' : ''}` : ''}`,
+  );
   lineas.push('- **Navegador**: WebKit de Playwright en Windows, perfiles iPhone 15 (393 × 852), SE (375 × 667) y Pro Max (440 × 956); no reemplaza la prueba en el iPhone');
 
   if (!existsSync(RESULTADO_JSON)) {
@@ -129,7 +160,7 @@ async function escribirReporte(datos: { url: string; version?: string; desplegad
     writeFileSync(destino, `${lineas.join('\n')}\n`);
     return destino;
   }
-  const informe = JSON.parse(readFileSync(RESULTADO_JSON, 'utf8')) as Informe;
+  const informe = leerJson<Informe>(RESULTADO_JSON);
   const { expected, unexpected, flaky, skipped, duration } = informe.stats;
   lineas.push(
     `- **Resultado**: ${expected} pasaron, ${unexpected} fallaron, ${flaky} inestables, ${skipped} omitidas (${Math.round(duration / 1000)} s)`,
@@ -232,8 +263,9 @@ let url = local ? 'http://localhost:4173' : (urlPedida ?? URL_PREVIEW);
 let version: string | undefined;
 
 if (propios.includes('--solo-reporte')) {
-  // Vuelve a escribir el reporte con los resultados de la última corrida, sin correr nada.
-  console.log(`▶ Reporte: ${await escribirReporte({ url, desplegada: !local, codigo: 0 })}`);
+  // Vuelve a escribir el reporte con los resultados y los datos de la última corrida, sin correr nada.
+  const ultima: Corrida = existsSync(CORRIDA_JSON) ? leerJson<Corrida>(CORRIDA_JSON) : { url, desplegada: !local, codigo: 0 };
+  console.log(`▶ Reporte: ${await escribirReporte(ultima)}`);
   process.exit(0);
 }
 
@@ -256,10 +288,13 @@ if (!sinDesplegar) {
 }
 
 console.log(`\n▶ Pruebas contra ${url}\n`);
+const codigoProbado = await estadoDelCodigo();
 const pruebas = await correr('npx', ['playwright', 'test', '--reporter=list,json', ...paraPlaywright], {
   ...(local ? {} : { PERCHA_URL: url }),
   PLAYWRIGHT_JSON_OUTPUT_NAME: RESULTADO_JSON,
 });
-const reporte = await escribirReporte({ url, version, desplegada: !local, codigo: pruebas.codigo });
+const corrida: Corrida = { url, version, desplegada: !local, codigo: pruebas.codigo, ...codigoProbado };
+writeFileSync(CORRIDA_JSON, JSON.stringify(corrida, null, 2));
+const reporte = await escribirReporte(corrida);
 console.log(`\n▶ Reporte: ${reporte}`);
 process.exit(pruebas.codigo);

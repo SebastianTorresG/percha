@@ -177,4 +177,11 @@ Al dueño ya se le explicó qué es un spike.
 - También: una segunda `<meta name="theme-color">` del plugin PWA (quitada) y el puerto de Vitest en modo navegador (ahora 4175).
 - Previsualización con el arreglo publicada el 2026-10-30 (versión f4da0850), con el dueño de acuerdo. Verificado desde la computadora: headers COOP/COEP, una sola `theme-color` y el mismo bundle que el build local.
 - Falta en el iPhone: A14.29 (confirma el arreglo) y el resto de T056. Como el service worker es "prompt", la app instalada muestra "Hay una versión nueva de Percha" en Ajustes: hay que tocar "Actualizar" antes de probar.
+
+## Pruebas contra la app publicada y visuales (2026-10-30)
+
+- `npm run test:desplegada` (T169) despliega en `percha-preview`, corre todas las e2e contra la URL y escribe `docs/reportes/pruebas-desplegada.md`, que es el resumen para pasarle a otra sesión.
+- Encontraron dos bugs visuales, ya corregidos (T170): el "+" de la barra se dibujaba en peso 400 porque faltaba Jost/Archivo 300, y las filas del Menú no tenían los 14 px de separación del diseño.
+- Avisos para Claude Design (no se cambian sin el dueño): contraste por debajo de WCAG AA en `--muted` claro sobre `--surface` y `--bg` (3,77 y 3,44:1), `--on-accent` sobre `--accent` claro (3,55:1) y `--nav-muted` sobre `--nav` oscuro (3,64:1).
+- Siguiente: US2 (T057+). Cuando una historia agregue pantallas, sumar sus estados a `tests/e2e/visual.spec.ts` y regenerar las capturas con `--update-snapshots` después de revisarlas a ojo.
 - M4 resuelto (2026-10-30): el dueño aprobó la regla de T045 y quedó en FR-005 y en el escenario 3b de US1.
