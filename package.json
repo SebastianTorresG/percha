@@ -9,7 +9,7 @@
     "dev:tunel": "node scripts/dev-tunel.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.e2e.json",
     "test": "vitest run --project unidad --project integracion",
     "test:navegador": "vitest run --project navegador",
     "respaldos:prueba": "vitest run --project herramientas",

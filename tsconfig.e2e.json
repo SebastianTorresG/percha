@@ -1,0 +1,10 @@
+{
+  // Pruebas de punta a punta (tests/e2e): corren en Node con Playwright, pero lo que pasan a
+  // `page.evaluate` corre en la página, así que necesitan los tipos de Node y los del DOM.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["tests/e2e", "src/vite-env.d.ts"],
+  "exclude": []
+}

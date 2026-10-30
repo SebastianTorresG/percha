@@ -21,7 +21,9 @@ export default defineConfig({
       registerType: 'prompt',
       injectRegister: false,
       // Íconos y splash desde pwa-assets.config.ts (T012); se generan e inyectan al compilar.
-      pwaAssets: { config: true, overrideManifestIcons: true },
+      // Sin `injectThemeColor`: index.html tiene una sola meta theme-color, la que actualiza el
+      // script del tema; una segunda quedaría con el color claro en el tema oscuro.
+      pwaAssets: { config: true, overrideManifestIcons: true, injectThemeColor: false },
       manifest: {
         id: '/',
         name: 'Percha',

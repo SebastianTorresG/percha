@@ -58,7 +58,8 @@ botón **Respaldar**.
 ### Probarla a fondo
 
 [`docs/pruebas-intensivas.md`](docs/pruebas-intensivas.md) tiene el plan de pruebas manuales:
-lo que se puede probar hoy, lo de cada historia cuando esté lista y las pruebas de volumen.
+lo que se puede probar hoy, lo de cada historia cuando esté lista y las pruebas de volumen. Lo que
+no necesita el iPhone físico corre solo en la computadora con `npm run test:e2e`.
 
 ### 5. Ver cuánto espacio usa
 

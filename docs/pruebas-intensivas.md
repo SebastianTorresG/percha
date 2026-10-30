@@ -22,6 +22,16 @@ de cada historia. Aquí están los casos raros, los bordes y el estrés.
    sección *Eventos*.
 4. Todo bug se arregla o queda como tarea en `tasks.md`; nada se deja como "fuera de alcance".
 
+### Lo que ya corre solo en la computadora
+
+`npm run test:e2e` recorre en el WebKit de Playwright (el motor de Safari), con los perfiles de
+iPhone 15, SE y Pro Max, todo lo de la Parte A que no necesita el teléfono físico: temas, navegación,
+menú, Ajustes, exportar e importar (con la hoja de compartir simulada), copia automática, aviso de
+Hoy, diagnóstico, modo avión, toques al azar y A14 con los respaldos de prueba. Cada prueba de
+`tests/e2e/` lleva en su nombre los IDs de este plan. Lo que depende del iPhone de verdad (instalar,
+splash, gestos del sistema, hoja de compartir real, Archivos e iCloud, llamadas, VoiceOver, batería)
+sigue siendo manual.
+
 ### Lo que conviene tener a mano
 
 - El iPhone con Safari y la app instalada desde
@@ -266,6 +276,7 @@ Usa los archivos de [`respaldos-de-prueba/`](respaldos-de-prueba/README.md). Emp
 | A14.26 | Con el chico cargado, cambia la fecha del iPhone al 10 de octubre (antes del respaldo) y abre Hoy | Sin aviso y sin errores | |
 | A14.27 | Con el chico cargado, cambia la fecha al 13 de noviembre y abre Hoy | "Tu último respaldo fue hace 2 semanas." | |
 | A14.28 | Vuelve a poner la fecha automática | Todo normal; la fecha de Hoy es la real | |
+| A14.29 | Con la app vacía, importa el chico, **cierra la app del todo** (deslizar hacia arriba), ábrela y exporta | El archivo pesa como el chico (~17 KB), no 200 KB, y se vuelve a importar sin "dañado". Confirma en el iPhone el arreglo del 30 de octubre (research R-14) | |
 
 ### A15. Archivos e iCloud
 
@@ -528,4 +539,5 @@ Usa los archivos de [`respaldos-de-prueba/`](respaldos-de-prueba/README.md). Emp
 
 | Fecha | iPhone / iOS | Versión de Percha | Pruebas corridas | Fallaron | Notas |
 |---|---|---|---|---|---|
+| 2026-10-30 | Sin iPhone: WebKit de Playwright en Windows, perfiles iPhone 15, SE y Pro Max | 0.1.0 (rama `claude/pruebas-intensivas-c52d4b`) | Parte A automatizable (56 pruebas × 3 perfiles: A1.3–A1.4, A2.1–A2.4, A3.1–A3.5, A3.7, A4.1–A4.5, A4.7, A4.9, A4.10, A5.1–A5.8, A6.1–A6.3, A6.5–A6.7, A7.1–A7.4, A7.6, A7.8, A7.10, A8.1, A8.3–A8.15, A9.1–A9.8, A10.1–A10.4, A10.6, A11.1–A11.5, A12.3, A12.4 parcial, A12.10, A14.1–A14.27, A15.6, A15.8, A16.9, A16.10, D1–D3) | Antes de arreglar: A9.3/A9.4 y A14.10/A14.11 (restaurar la copia automática decía "dañado") y exportar después de reabrir la app (las fotos importadas se leían como el ZIP entero); A1.3/A1.4 (dos `theme-color`) | Arreglados el mismo día (research R-14). Después: 168 de 168. Falta confirmarlo en el iPhone con A14.29 |
 | | | | | | |

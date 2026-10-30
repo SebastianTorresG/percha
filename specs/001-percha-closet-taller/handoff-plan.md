@@ -167,6 +167,13 @@ Al dueño ya se le explicó qué es un spike.
 - Cambio de contrato: `manifest.imagenes[].creada`, para que la ida y vuelta sea exacta. El lector acepta una carpeta raíz y `__MACOSX/`. Ya está en `contracts/respaldo.md` y en research R-10 y R-14.
 - Probado en el navegador (2026-10-30): Hoy muestra el aviso de 01b con una prenda y sin respaldo; Ajustes se ve como 09 en claro y oscuro.
 - Previsualización con US1 publicada el 2026-10-30 en https://percha-preview.percha-spike-recorte.workers.dev (versión b05a506a).
-- Pruebas manuales: `docs/pruebas-intensivas.md` (317 pruebas; empezar por A14) y respaldos de prueba con datos en `docs/respaldos-de-prueba/` (`npm run respaldos:prueba`).
+- Pruebas manuales: `docs/pruebas-intensivas.md` (318 pruebas; empezar por A14) y respaldos de prueba con datos en `docs/respaldos-de-prueba/` (`npm run respaldos:prueba`).
 - Pendiente: T056 en el iPhone.
+
+## Pruebas intensivas automatizadas (2026-10-30)
+
+- La Parte A del plan, en lo que no necesita el teléfono físico, corre con `npm run test:e2e` (T168): 56 pruebas × 3 perfiles de iPhone en el WebKit de Playwright, con perfil persistente y la hoja de compartir simulada. 168 de 168 pasan.
+- Encontraron un bug grave, ya corregido (T167, research R-14): tras importar un respaldo y volver a abrir la app, WebKit devolvía cada foto como el ZIP entero, porque se guardaba el `slice` del archivo. Exportar daba un archivo dañado y restaurar la copia automática decía "dañado". Ahora se guardan copias propias de los bytes. Regla para US2 en adelante: nunca guardar un `slice` en IndexedDB.
+- También: una segunda `<meta name="theme-color">` del plugin PWA (quitada) y el puerto de Vitest en modo navegador (ahora 4175).
+- Falta en el iPhone: A14.29 (confirma el arreglo) y el resto de T056. La previsualización publicada todavía no tiene el arreglo: hay que volver a desplegar (`npm run deploy:preview`) antes de probar.
 - M4 resuelto (2026-10-30): el dueño aprobó la regla de T045 y quedó en FR-005 y en el escenario 3b de US1.

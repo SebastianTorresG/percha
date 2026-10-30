@@ -52,6 +52,9 @@ export default defineConfig({
           // Blob en IndexedDB ("Error preparing Blob/File data"). La PWA instalada no es efímera,
           // así que las pruebas usan un contexto persistente, que exige correr los archivos en serie.
           fileParallelism: false,
+          // El puerto por defecto del navegador (63315) puede caer en los rangos que Windows reserva
+          // para Hyper-V (`netsh interface ipv6 show excludedportrange protocol=tcp`): EACCES.
+          api: { port: 4175 },
           browser: {
             enabled: true,
             headless: true,

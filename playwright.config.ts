@@ -6,6 +6,10 @@ export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,
   reporter: 'list',
+  // Importar y restaurar respaldos con varias instancias de WebKit a la vez tarda más de 5 s en
+  // Windows; en el iPhone se mide aparte (docs/pruebas-intensivas.md).
+  expect: { timeout: 20_000 },
+  timeout: 90_000,
   use: {
     baseURL: 'http://localhost:4173',
     trace: 'retain-on-failure',
