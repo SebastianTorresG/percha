@@ -1,4 +1,11 @@
-/* 01c Menú: filas de 64 px con subtítulo y "›". */
+/* 01c Menú: filas de 64 px con subtítulo y "›". En el diseño son hijas directas de la hoja, así que
+   llevan entre ellas el mismo gap de 14 px que la hoja pone después del tirador. */
+
+.menu-filas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+}
 
 .menu-fila {
   display: flex;

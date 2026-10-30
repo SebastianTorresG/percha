@@ -14,6 +14,7 @@
     "test:navegador": "vitest run --project navegador",
     "respaldos:prueba": "vitest run --project herramientas",
     "test:e2e": "playwright test",
+    "test:desplegada": "node --experimental-strip-types scripts/probar-despliegue.ts",
     "modelo:descargar": "node --experimental-strip-types scripts/descargar-modelo.ts",
     "tokens": "node --experimental-strip-types scripts/generar-tokens.ts",
     "deploy:preview": "npm run build && wrangler deploy --name percha-preview"

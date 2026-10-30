@@ -1,0 +1,9 @@
+/* Lo que cambia entre corridas y se oculta en las capturas de visual.spec.ts: los MB que informa
+   storage.estimate(), la barra de Espacio y si el almacenamiento quedó protegido. Con CSS y no con
+   `mask`, porque la máscara se dibuja encima de todo, también de una hoja abierta. */
+
+.ajustes-espacio-fila > span:last-child,
+.ajustes-barra,
+.ajustes-espacio p.t-meta + p.t-meta {
+  visibility: hidden !important;
+}

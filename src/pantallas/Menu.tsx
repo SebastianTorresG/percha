@@ -59,7 +59,7 @@ export default function Menu() {
 
   return (
     <HojaInferior etiqueta="Menú" pantalla="01c Menú" alCerrar={() => navegacion.cerrarHoja()}>
-      <div>
+      <div className="menu-filas">
         <Fila titulo="Mis maniquíes" subtitulo={subtituloManiquies(maniquies)} destino={{ pantalla: 'misManiquies' }} />
         <Fila titulo="Mis medidas" subtitulo={subtituloMedidas} destino={{ pantalla: 'misMedidas' }} />
         <Fila titulo="Ajustes y respaldo" subtitulo={subtituloRespaldo} destino={{ pantalla: 'ajustes' }} />

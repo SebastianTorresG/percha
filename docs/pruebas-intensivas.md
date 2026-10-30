@@ -32,6 +32,24 @@ Hoy, diagnóstico, modo avión, toques al azar y A14 con los respaldos de prueba
 splash, gestos del sistema, hoja de compartir real, Archivos e iCloud, llamadas, VoiceOver, batería)
 sigue siendo manual.
 
+`npm run test:desplegada` hace lo mismo **contra la app publicada**: despliega en `percha-preview`,
+espera a que Cloudflare sirva la versión nueva y corre todas las pruebas contra esa URL, más:
+
+- **Despliegue** (`tests/e2e/despliegue.spec.ts`): HTTPS con COOP/COEP y sin caché en la página;
+  cada archivo del precache con su tipo y su caché; manifest; ícono de inicio de 180 × 180 sin
+  transparencia (iOS la pinta de negro); cada splash de iOS con su tamaño y el fondo del tema (A1.3,
+  A1.4); las 10 fuentes; y que lo que no existe responda 404 y no la app.
+- **Visual** (`tests/e2e/visual.spec.ts`): cada estado de la app en claro y oscuro, en los tres
+  perfiles, con la isla y el indicador de inicio simulados, pasa por detectores de bugs visuales
+  (desbordes, textos cortados o encimados, controles fuera de la pantalla, tapados o bajo la isla,
+  la barra tapando contenido, fuentes que no cargaron, letra muy chica) y se compara con su captura
+  de referencia. También a 320 de ancho (Zoom de pantalla, A16.14) y en horizontal (A12.2).
+  Contraste por debajo de WCAG AA y objetivos táctiles de menos de 44 px van como avisos.
+
+Al terminar escribe `docs/reportes/pruebas-desplegada.md` con las fallas, los bugs y avisos visuales
+y cómo seguir, listo para pasarle a otra sesión. Con `--sin-desplegar` prueba lo que ya está
+publicado; con `--local`, el build local.
+
 ### Lo que conviene tener a mano
 
 - El iPhone con Safari y la app instalada desde

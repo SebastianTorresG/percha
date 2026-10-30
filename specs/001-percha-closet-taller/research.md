@@ -406,7 +406,9 @@ Límites esperados (SC-009): 300 prendas, 5 maniquíes y 200 outfits.
 ## R-13. Fuentes empaquetadas
 
 - **Decisión**: paquetes `@fontsource/*` **5.3.0** (OFL-1.1): `cormorant-garamond` (500 y 500
-  cursiva), `jost` (400 y 500), `bodoni-moda` (400 y 400 cursiva) y `archivo` (400 y 500). Solo el
+  cursiva), `jost` (300, 400 y 500), `bodoni-moda` (400 y 400 cursiva) y `archivo` (300, 400 y 500).
+  El 300 se agregó el 2026-10-30: el "+" de la barra inferior va en `font-weight:300` en el diseño y
+  sin ese peso Safari lo dibujaba en 400 (lo encontró la prueba visual; ~24 KB más). Solo el
   subconjunto `latin` (incluye á, é, í, ó, ú, ñ, ¿, ¡). Se importan solo los CSS de esos pesos y
   Vite empaqueta los `woff2`, que entran en el precache.
 - **Justificación**: el diseño pide incluir las fuentes en el bundle para que funcionen sin internet;
