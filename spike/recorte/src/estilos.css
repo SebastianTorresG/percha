@@ -1,0 +1,230 @@
+/* Estilo mínimo con los tokens del tema claro (tokens.json, "Boutique cálida"). */
+
+:root {
+  --bg: #f4ebe6;
+  --surface: #fbf6f3;
+  --chip: #ead9d1;
+  --ink: #3a2a25;
+  --muted: #8f7a71;
+  --line: #e6d6ce;
+  --accent: #b9776a;
+  --on-accent: #ffffff;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 -apple-system, system-ui, sans-serif;
+  padding: env(safe-area-inset-top) calc(16px + env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom))
+    calc(16px + env(safe-area-inset-left));
+}
+
+h1 {
+  font: 500 32px/1.1 Georgia, serif;
+  margin: 16px 0 4px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 0 0 8px;
+}
+
+section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+label {
+  display: block;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+select,
+button,
+.boton,
+textarea {
+  font: inherit;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+
+select {
+  display: block;
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 0 12px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+button,
+.boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin: 8px 0;
+  padding: 0 14px;
+  background: var(--chip);
+  color: var(--ink);
+  text-align: center;
+  cursor: pointer;
+}
+
+button.principal {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+  font-weight: 500;
+}
+
+button:disabled,
+.boton:has(input:disabled) {
+  opacity: 0.5;
+}
+
+.fila {
+  display: flex;
+  gap: 8px;
+}
+
+.fila > * {
+  flex: 1;
+}
+
+progress {
+  width: 100%;
+  height: 6px;
+  accent-color: var(--accent);
+}
+
+.pregunta {
+  border-top: 1px dashed var(--line);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.cuadros {
+  min-height: 120px;
+  border-radius: 10px;
+  background: repeating-conic-gradient(#e2d6cf 0 25%, #fbf6f3 0 50%) 0 0 / 20px 20px;
+  display: grid;
+  place-items: center;
+}
+
+.cuadros img {
+  max-width: 100%;
+  max-height: 60vh;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+dt {
+  color: var(--muted);
+}
+
+dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+ol#lista {
+  padding-left: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+ol#lista li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  border-top: 1px solid var(--line);
+  padding: 8px 0;
+}
+
+ol#lista li > .meta {
+  flex-basis: 100%;
+}
+
+ol#lista li.error {
+  color: #9b2c1f;
+}
+
+textarea {
+  padding: 8px;
+  font-size: 12px;
+}
+
+/* Cámara en vivo a pantalla completa (fondo compartido.camara.bg de tokens.json). */
+.camara {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #0d0c0b;
+  color: #f2efe9;
+}
+
+.camara video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camara-marco {
+  position: absolute;
+  inset: 18% 14% 26%;
+  border: 2px dashed rgba(242, 239, 233, 0.8);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.camara-cuenta {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 500 96px/1 Georgia, serif;
+  pointer-events: none;
+}
+
+.camara-botones {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  display: flex;
+  gap: 8px;
+}
+
+.camara-botones button {
+  background: rgba(242, 239, 233, 0.16);
+  color: #f2efe9;
+  border-color: rgba(242, 239, 233, 0.3);
+}
+
+.camara-botones button.principal {
+  background: #f2efe9;
+  color: #0d0c0b;
+}

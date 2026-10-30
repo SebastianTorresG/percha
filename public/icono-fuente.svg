@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Ícono provisional de Percha: una percha con el ink del tema claro. El diseño no trae ícono
+       de app; anotado en specs/001-percha-closet-taller/desviaciones-diseno.md. -->
+  <g fill="none" stroke="#3a2a25" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M212 150 A44 44 0 1 1 287 181 L256 210 V232" />
+    <path d="M256 232 L84 360 H428 Z" />
+  </g>
+</svg>

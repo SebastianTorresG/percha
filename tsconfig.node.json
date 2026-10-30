@@ -1,0 +1,19 @@
+{
+  // Archivos que corren en Node: configuraciones de Vite, Vitest, Playwright y del generador de
+  // íconos, y los scripts de scripts/.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["vite.config.ts", "vitest.config.ts", "playwright.config.ts", "pwa-assets.config.ts", "scripts/**/*.ts"]
+}

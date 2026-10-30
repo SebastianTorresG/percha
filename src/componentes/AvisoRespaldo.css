@@ -1,0 +1,45 @@
+/* Aviso suave de respaldo (01b Hoy sugerencia): tarjeta surface, 13 px, la acción en 500 con 44 px de alto. */
+
+.aviso-respaldo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-4);
+  margin: var(--espacio-3) var(--margen-tarjetas) 0;
+  padding: var(--espacio-2) var(--espacio-5);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: var(--tipo-meta);
+  line-height: 1.35;
+}
+
+.aviso-respaldo-texto {
+  color: var(--muted);
+}
+
+.aviso-respaldo-accion {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: var(--toque-minimo);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--tipo-meta);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.aviso-respaldo-accion:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.aviso-respaldo-accion:focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 2px;
+}

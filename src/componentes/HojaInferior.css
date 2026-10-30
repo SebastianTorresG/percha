@@ -1,0 +1,93 @@
+/* HojaInferior (diseño, Componentes y Movimiento): a 8 px de los lados y del borde inferior,
+   esquinas `--radius-lg` arriba y 40 px abajo, tirador de 36 × 5 y scrim detrás. Sube en 280 ms
+   ease-out y baja en 200 ms. Con movimiento reducido, base.css deja solo el fundido. */
+
+.hoja-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: var(--scrim);
+  touch-action: none;
+  animation: hoja-scrim-aparece 280ms ease-out;
+}
+
+.hoja-scrim[data-saliendo] {
+  animation: hoja-scrim-desaparece 200ms ease-in forwards;
+}
+
+.hoja {
+  position: fixed;
+  left: calc(8px + var(--seguro-izquierda));
+  right: calc(8px + var(--seguro-derecha));
+  bottom: 8px;
+  z-index: 21;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+  max-height: calc(100dvh - var(--seguro-arriba) - 24px);
+  padding: 12px var(--margen-texto) max(var(--espacio-8), var(--seguro-abajo));
+  border-radius: var(--radius-lg) var(--radius-lg) 40px 40px;
+  background: var(--bg);
+  color: var(--ink);
+  outline: none;
+  touch-action: none;
+  animation: hoja-sube 280ms ease-out;
+}
+
+.hoja[data-soltando] {
+  transition: transform 200ms ease-out;
+}
+
+.hoja[data-saliendo] {
+  animation: hoja-baja 200ms ease-in forwards;
+}
+
+.hoja-tirador {
+  flex-shrink: 0;
+  align-self: center;
+  width: 36px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--line);
+}
+
+/* Contenido con scroll propio: ahí no se arrastra la hoja. */
+.hoja [data-hoja-desplazable] {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+@keyframes hoja-sube {
+  from {
+    transform: translateY(calc(100% + 8px));
+  }
+}
+
+@keyframes hoja-baja {
+  to {
+    transform: translateY(calc(100% + 8px));
+  }
+}
+
+@keyframes hoja-scrim-aparece {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes hoja-scrim-desaparece {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoja {
+    animation-name: hoja-scrim-aparece;
+  }
+
+  .hoja[data-saliendo] {
+    animation-name: hoja-scrim-desaparece;
+  }
+}

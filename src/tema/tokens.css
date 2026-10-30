@@ -1,0 +1,117 @@
+/* Generado por scripts/generar-tokens.ts desde Tres direcciones visuales Clóset/design_handoff_percha/tokens.json. No editar a mano: npm run tokens. */
+
+:root {
+  --camara-bg: #0d0c0b;
+  --camara-ink: #f2efe9;
+  --camara-muted: #a8a199;
+  --tipo-hero: 72px;
+  --tipo-titulo: 42px;
+  --tipo-detalle: 32px;
+  --tipo-hoja: 28px;
+  --tipo-tarjeta: 22px;
+  --tipo-cuerpo: 15px;
+  --tipo-secundario: 14px;
+  --tipo-meta: 13px;
+  --tipo-etiqueta: 12px;
+  --tipo-nav: 11px;
+  --tipo-tag: 10px;
+  --espacio-1: 4px;
+  --espacio-2: 8px;
+  --espacio-3: 10px;
+  --espacio-4: 12px;
+  --espacio-5: 14px;
+  --espacio-6: 16px;
+  --espacio-7: 18px;
+  --espacio-8: 22px;
+  --espacio-9: 24px;
+  --espacio-10: 28px;
+  --margen-texto: 22px;
+  --margen-tarjetas: 16px;
+  --toque-minimo: 44px;
+  --altura-boton: 52px;
+  --altura-chip-1: 34px;
+  --altura-chip-2: 36px;
+  --altura-chip-3: 40px;
+  --nav-altura: 68px;
+  --nav-inset: 16px;
+  --nav-inferior: 26px;
+  --nav-boton-mas: 52px;
+  --sombra-telefono: 0 30px 60px rgba(0,0,0,.18);
+}
+
+/* Boutique cálida */
+:root,
+[data-theme="claro"] {
+  color-scheme: light;
+  --bg: #f4ebe6;
+  --surface: #fbf6f3;
+  --chip: #ead9d1;
+  --ink: #3a2a25;
+  --muted: #8f7a71;
+  --line: #e6d6ce;
+  --accent: #b9776a;
+  --on-accent: #ffffff;
+  --nav: #3a2a25;
+  --nav-muted: #c9b3aa;
+  --nav-ink: #ffffff;
+  --frame: #2a1f1b;
+  --select: #b9776a;
+  --stitch: #b9776a;
+  --scrim: rgba(58,42,37,.38);
+  --tile-bg: radial-gradient(circle at 50% 42%, #ebe0d7, #d9c9bd 80%);
+  --canvas: radial-gradient(ellipse at 50% 38%, #efe5de, #dfd0c5 82%);
+  --placeholder1: #e9d8cf;
+  --placeholder2: #f1e4dd;
+  --cutout-filter: drop-shadow(0 0 .5px rgba(58,42,37,.55)) drop-shadow(0 5px 7px rgba(58,42,37,.18));
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-serif-weight: 500;
+  --font-sans: 'Jost', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --label-case: none;
+  --label-tracking: 0;
+  --chip-font-size: 13px;
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 10px;
+  --radius-chip: 17px;
+  --radius-button: 26px;
+  --radius-nav: 34px;
+  --selection-style: dashed;
+}
+
+/* Galería oscura */
+[data-theme="oscuro"] {
+  color-scheme: dark;
+  --bg: #0f0e0d;
+  --surface: #181716;
+  --chip: #262422;
+  --ink: #f2efe9;
+  --muted: #8c867e;
+  --line: #2a2826;
+  --accent: #f2efe9;
+  --on-accent: #0f0e0d;
+  --nav: #1a1918;
+  --nav-muted: #77716a;
+  --nav-ink: #f2efe9;
+  --frame: #000000;
+  --select: #f2efe9;
+  --stitch: #bdb7ae;
+  --scrim: rgba(0,0,0,.6);
+  --tile-bg: radial-gradient(circle at 50% 42%, #3f3b37, #2a2826 80%);
+  --canvas: radial-gradient(ellipse at 50% 38%, #3b3734, #242220 82%);
+  --placeholder1: #252321;
+  --placeholder2: #2d2a28;
+  --cutout-filter: drop-shadow(0 0 .6px rgba(255,250,240,.5)) drop-shadow(0 6px 10px rgba(0,0,0,.45));
+  --font-serif: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  --font-serif-weight: 400;
+  --font-sans: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --label-case: uppercase;
+  --label-tracking: 0.1em;
+  --chip-font-size: 11px;
+  --radius-lg: 4px;
+  --radius-md: 2px;
+  --radius-sm: 2px;
+  --radius-chip: 2px;
+  --radius-button: 2px;
+  --radius-nav: 4px;
+  --selection-style: solid;
+}

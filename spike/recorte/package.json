@@ -1,0 +1,30 @@
+{
+  "name": "percha-spike-recorte",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Página desechable para probar @imgly/background-removal en Safari de iOS como PWA standalone (research.md R-0, tarea T001).",
+  "scripts": {
+    "modelo": "node scripts/descargar-modelo.mjs",
+    "icono": "node scripts/generar-icono.mjs",
+    "typecheck": "tsc --noEmit",
+    "dev": "vite --host",
+    "build": "vite build",
+    "build:sin-coi": "vite build --mode sin-coi",
+    "preview": "vite preview --host",
+    "deploy:con-coi": "vite build && wrangler deploy --name percha-spike-con-coi",
+    "deploy:sin-coi": "vite build --mode sin-coi && wrangler deploy --name percha-spike-sin-coi"
+  },
+  "dependencies": {
+    "@imgly/background-removal": "1.7.0",
+    "onnxruntime-web": "1.21.0-dev.20250206-d981b153d3"
+  },
+  "overrides": {
+    "onnxruntime-web": "$onnxruntime-web"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "wrangler": "4.152.0"
+  }
+}

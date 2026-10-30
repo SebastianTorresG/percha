@@ -1,0 +1,21 @@
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+.vitest/
+*.log
+.env*
+.wrangler/
+
+# Modelos de ML: se descargan con `npm run modelo:descargar` (research R-1).
+public/modelos/
+spike/recorte/public/modelos/
+spike/recorte/dist/
+
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/

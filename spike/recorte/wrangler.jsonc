@@ -1,0 +1,12 @@
+// Publicación del spike como Worker con archivos estáticos (la versión actual de Cloudflare
+// Pages; ver research.md R-8). Cada variante se publica con su propio nombre:
+//   npm run deploy:con-coi  → percha-spike-con-coi
+//   npm run deploy:sin-coi  → percha-spike-sin-coi
+// Los headers COOP/COEP salen de dist/_headers, que vite.config.ts arma según la variante.
+{
+  "name": "percha-spike-con-coi",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "./dist"
+  }
+}

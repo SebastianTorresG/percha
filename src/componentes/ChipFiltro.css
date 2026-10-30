@@ -1,0 +1,58 @@
+/* ChipFiltro (diseño, Componentes; Percha Sistema "ChipFiltro"). */
+
+.chip-filtro {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: var(--altura-chip-1);
+  min-width: var(--toque-minimo);
+  padding: 0 var(--espacio-5);
+  border: 0;
+  border-radius: var(--radius-chip);
+  background: var(--chip);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--chip-font-size);
+  line-height: 1;
+  text-transform: var(--label-case);
+  letter-spacing: var(--label-tracking);
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  /* El chip mide 34–40 px; el área táctil llega a 44 px sin cambiar el aspecto. */
+  position: relative;
+}
+
+.chip-filtro::after {
+  content: '';
+  position: absolute;
+  inset: calc((var(--altura-chip-1) - var(--toque-minimo)) / 2) 0;
+}
+
+.chip-filtro[data-altura='36'] {
+  height: var(--altura-chip-2);
+}
+
+.chip-filtro[data-altura='40'] {
+  height: var(--altura-chip-3);
+}
+
+.chip-filtro[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* "+ Etiqueta": borde punteado en `--muted`. */
+.chip-filtro-agregar {
+  background: transparent;
+  border: 1px dashed var(--muted);
+  color: var(--muted);
+}
+
+.chip-filtro:focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 2px;
+}

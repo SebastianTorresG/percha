@@ -1,0 +1,12 @@
+{
+  "name": "Percha · prueba de recorte",
+  "short_name": "Spike recorte",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4ebe6",
+  "theme_color": "#f4ebe6",
+  "icons": [{ "src": "/icono-180.png", "sizes": "180x180", "type": "image/png" }]
+}

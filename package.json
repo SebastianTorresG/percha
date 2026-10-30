@@ -1,0 +1,50 @@
+{
+  "name": "percha",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Percha: clóset digital y taller de costura, PWA local-first para iPhone.",
+  "scripts": {
+    "dev": "vite",
+    "dev:tunel": "node scripts/dev-tunel.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
+    "test": "vitest run --project unidad --project integracion",
+    "test:navegador": "vitest run --project navegador",
+    "test:e2e": "playwright test",
+    "modelo:descargar": "node --experimental-strip-types scripts/descargar-modelo.ts",
+    "tokens": "node --experimental-strip-types scripts/generar-tokens.ts",
+    "deploy:preview": "npm run build && wrangler deploy --name percha-preview"
+  },
+  "dependencies": {
+    "@fontsource/archivo": "5.3.0",
+    "@fontsource/bodoni-moda": "5.3.0",
+    "@fontsource/cormorant-garamond": "5.3.0",
+    "@fontsource/jost": "5.3.0",
+    "@imgly/background-removal": "1.7.0",
+    "dexie": "4.4.6",
+    "dexie-react-hooks": "4.4.0",
+    "onnxruntime-web": "1.21.0-dev.20250206-d981b153d3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "overrides": {
+    "onnxruntime-web": "$onnxruntime-web"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vite-pwa/assets-generator": "2.0.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "@vitest/browser-playwright": "5.0.5",
+    "fake-indexeddb": "6.2.6",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "vite-plugin-pwa": "2.0.0",
+    "vitest": "5.0.5",
+    "wrangler": "4.152.0"
+  }
+}

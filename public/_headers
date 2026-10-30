@@ -1,0 +1,26 @@
+# Headers para Cloudflare Workers con archivos estáticos (misma sintaxis que Pages; research R-8).
+
+# Aislamiento de origen para los hilos de WASM del recorte. ⏳ T002: quitar si no aportan.
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+
+# Archivos con hash en el nombre, el modelo versionado y el runtime de Workbox: nunca cambian.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/modelos/*
+  Cache-Control: public, max-age=31536000, immutable
+/workbox-*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Lo que decide qué versión de la app se carga: siempre se revalida.
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/sw.js
+  Cache-Control: no-cache
+/manifest.webmanifest
+  Cache-Control: no-cache
+/registerSW.js
+  Cache-Control: no-cache

@@ -1,0 +1,71 @@
+/* BotonPrincipal, BotonSecundario y BotonTexto (diseño, Componentes y Percha Sistema "Boton"). */
+
+.boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-2);
+  width: 100%;
+  min-width: var(--toque-minimo);
+  height: var(--altura-boton);
+  padding: 0 var(--espacio-8);
+  border: 0;
+  border-radius: var(--radius-button);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1;
+  text-transform: var(--label-case);
+  letter-spacing: var(--label-tracking);
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: opacity 120ms ease-out;
+}
+
+.boton-principal {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 500;
+}
+
+.boton-secundario {
+  background: var(--chip);
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* Acción que no se deshace sola, como "Eliminar prenda" en 03b: fondo ink y texto bg. */
+.boton-tinta {
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 500;
+}
+
+/* "Eliminar prenda": 44 px, 14 px, texto secundario subrayado. */
+.boton-texto {
+  height: var(--toque-minimo);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Estados no diseñados (desviaciones-diseno.md): presionado y deshabilitado con opacidad. */
+.boton:active:not(:disabled) {
+  opacity: 0.8;
+}
+
+.boton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.boton:focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 2px;
+}

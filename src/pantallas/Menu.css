@@ -1,0 +1,49 @@
+/* 01c Menú: filas de 64 px con subtítulo y "›". */
+
+.menu-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-4);
+  min-height: 64px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.menu-fila:last-child {
+  border-bottom: 0;
+}
+
+.menu-fila-textos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.menu-fila-titulo {
+  font-size: 16px;
+}
+
+.menu-fila-subtitulo {
+  font-size: var(--tipo-meta);
+  color: var(--muted);
+}
+
+.menu-fila-flecha {
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.menu-fila:focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 2px;
+}

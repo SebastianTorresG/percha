@@ -1,0 +1,154 @@
+/* 09 Ajustes: tarjetas surface de radio lg con 18 px de relleno, a 16 px de los lados. */
+
+.ajustes-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+  margin: 20px var(--margen-tarjetas) 0;
+  padding: var(--espacio-7);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.ajustes-tarjeta + .ajustes-tarjeta {
+  margin-top: var(--espacio-4);
+}
+
+.ajustes-etiqueta {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--tipo-meta);
+  font-weight: 400;
+  text-transform: var(--label-case);
+  letter-spacing: var(--label-tracking);
+}
+
+.ajustes-texto {
+  margin: 0;
+  font-size: var(--tipo-cuerpo);
+  line-height: 1.45;
+}
+
+.ajustes-botones {
+  display: flex;
+  gap: var(--espacio-2);
+}
+
+.ajustes-botones .boton {
+  height: 48px;
+  padding: 0 var(--espacio-4);
+  font-size: var(--tipo-secundario);
+}
+
+.ajustes-exportar {
+  flex: 1.3;
+}
+
+.ajustes-importar {
+  flex: 1;
+}
+
+/* Estados no diseñados: progreso, errores y el resultado de importar (desviaciones-diseno.md). */
+.ajustes-mensaje {
+  margin: 0;
+  font-size: var(--tipo-meta);
+  line-height: 1.4;
+}
+
+.ajustes-auto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: var(--espacio-4);
+  border-top: 1px solid var(--line);
+}
+
+.ajustes-auto .t-meta {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ajustes-auto .boton-texto {
+  width: auto;
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.ajustes-espacio {
+  gap: var(--espacio-4);
+}
+
+.ajustes-espacio-fila {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: var(--tipo-meta);
+}
+
+.ajustes-barra {
+  display: flex;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--line);
+}
+
+.ajustes-barra-fotos {
+  background: var(--ink);
+}
+
+.ajustes-barra-copia {
+  background: var(--muted);
+}
+
+.ajustes-espacio .t-meta {
+  margin: 0;
+}
+
+.ajustes-lista {
+  gap: 0;
+  padding: 0 var(--espacio-7);
+}
+
+.ajustes-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--tipo-cuerpo);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.ajustes-fila:last-child {
+  border-bottom: 0;
+}
+
+.ajustes-fila-flecha {
+  color: var(--muted);
+}
+
+.ajustes-fila:focus-visible,
+.ajustes-version:focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 2px;
+}
+
+.ajustes-version {
+  align-self: center;
+  margin-top: auto;
+  min-height: var(--toque-minimo);
+  padding: var(--espacio-8) var(--espacio-6) 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-sans);
+  cursor: pointer;
+}

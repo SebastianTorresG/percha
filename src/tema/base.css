@@ -1,0 +1,146 @@
+/* Base de la app sobre los tokens de tokens.css (T009). */
+
+:root {
+  /* Áreas seguras del iPhone (principio V). */
+  --seguro-arriba: env(safe-area-inset-top, 0px);
+  --seguro-derecha: env(safe-area-inset-right, 0px);
+  --seguro-abajo: env(safe-area-inset-bottom, 0px);
+  --seguro-izquierda: env(safe-area-inset-left, 0px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--tipo-cuerpo);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* Cada pantalla (src/componentes/Pantalla.css) aplica las áreas seguras y tiene su propio scroll. */
+#raiz {
+  min-height: 100dvh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Escala tipográfica del diseño: la serif del tema para títulos y la sans para el resto. */
+.t-hero,
+.t-titulo,
+.t-detalle,
+.t-hoja,
+.t-tarjeta {
+  font-family: var(--font-serif);
+  font-weight: var(--font-serif-weight);
+  margin: 0;
+}
+
+.t-hero {
+  font-size: var(--tipo-hero);
+  line-height: 1;
+}
+
+.t-titulo {
+  font-size: var(--tipo-titulo);
+  line-height: 1;
+}
+
+.t-detalle {
+  font-size: var(--tipo-detalle);
+  line-height: 1.1;
+}
+
+.t-hoja {
+  font-size: var(--tipo-hoja);
+  line-height: 1.15;
+}
+
+.t-tarjeta {
+  font-size: var(--tipo-tarjeta);
+  line-height: 1.2;
+}
+
+/* Mensajes cálidos en cursiva de la serif ("Una idea para hoy", "Recortando tu prenda…"). */
+.t-calido {
+  font-family: var(--font-serif);
+  font-weight: var(--font-serif-weight);
+  font-style: italic;
+}
+
+.t-cuerpo {
+  font-size: var(--tipo-cuerpo);
+  line-height: 1.5;
+}
+
+.t-secundario {
+  font-size: var(--tipo-secundario);
+}
+
+.t-meta {
+  font-size: var(--tipo-meta);
+  color: var(--muted);
+}
+
+.t-etiqueta,
+.t-nav,
+.t-tag {
+  text-transform: var(--label-case);
+  letter-spacing: var(--label-tracking);
+}
+
+.t-etiqueta {
+  font-size: var(--tipo-etiqueta);
+}
+
+.t-nav {
+  font-size: var(--tipo-nav);
+}
+
+.t-tag {
+  font-size: var(--tipo-tag);
+}
+
+/* Con movimiento reducido solo quedan los fundidos (diseño, sección Movimiento). Las animaciones se
+   apagan, salvo en los elementos con `data-fundido`, que cambian su animación por un fundido en su
+   propio CSS (por ejemplo HojaInferior). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-property: opacity !important;
+  }
+
+  *:not([data-fundido]),
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

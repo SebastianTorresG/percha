@@ -1,0 +1,21 @@
+{
+  // App y pruebas. Los archivos de Node (configuraciones y scripts) van en tsconfig.node.json.
+  // Los workers (por ejemplo src/recorte/*.worker.ts, T063) tendrán su propio tsconfig, porque las
+  // librerías "DOM" y "WebWorker" no se pueden combinar en un mismo programa de TypeScript.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src", "tests"],
+  "exclude": ["src/**/*.worker.ts"]
+}

@@ -1,0 +1,15 @@
+// Publicación de Percha como Worker con archivos estáticos (la versión actual de Cloudflare Pages;
+// research R-8). Los headers salen de dist/_headers (public/_headers).
+//   npm run deploy:preview  → Worker "percha-preview" (para probar en el iPhone)
+//   Producción (T166, solo con aprobación del dueño): wrangler deploy --name percha
+//
+// Sin "not_found_handling": "single-page-application" a propósito: con ese modo, un trozo del modelo
+// que falte respondería index.html con 200 y el service worker lo guardaría en la caché del modelo.
+// La app no usa rutas: su pila de navegación cambia solo el `state` del historial (T028).
+{
+  "name": "percha",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "./dist"
+  }
+}

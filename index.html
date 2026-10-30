@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Percha" />
+    <meta name="theme-color" content="#f4ebe6" />
+    <!--
+      Tema antes del primer pintado (FR-062, research R-12). Va antes de cualquier CSS o JS.
+      La fuente de verdad es Ajustes en IndexedDB; localStorage es solo un espejo para leerlo aquí
+      de forma síncrona. src/tema/apariencia.ts resuelve igual (tests/unidad/apariencia.test.ts).
+      Hay una sola meta theme-color que actualiza este script: con dos metas por media query, la
+      preferencia manual (Claro u Oscuro) no se respetaría si contradice al sistema.
+    -->
+    <script>
+      (function () {
+        var preferencia = 'sistema';
+        try {
+          var guardada = localStorage.getItem('percha.apariencia');
+          if (guardada === 'claro' || guardada === 'oscuro' || guardada === 'sistema') preferencia = guardada;
+        } catch (e) {}
+        var oscuro =
+          preferencia === 'oscuro' ||
+          (preferencia === 'sistema' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var tema = oscuro ? 'oscuro' : 'claro';
+        document.documentElement.dataset.theme = tema;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', tema === 'oscuro' ? '#0f0e0d' : '#f4ebe6');
+      })();
+    </script>
+    <title>Percha</title>
+  </head>
+  <body>
+    <div id="raiz"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

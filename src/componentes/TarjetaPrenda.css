@@ -1,0 +1,85 @@
+/* TarjetaPrenda (diseño 02 Clóset y Componentes). */
+
+.tarjeta-prenda {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  min-width: 0;
+  width: 100%;
+  padding: 8px 8px 12px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.tarjeta-prenda:focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 2px;
+}
+
+.tarjeta-prenda-tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-sm);
+  background: var(--tile-bg);
+  overflow: hidden;
+}
+
+.tarjeta-prenda-tile img {
+  width: 76%;
+  height: 80%;
+  object-fit: contain;
+  filter: var(--cutout-filter);
+}
+
+.tarjeta-prenda-marca {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: var(--tipo-tag);
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* "hecho por mí": imita una etiqueta cosida. */
+.tarjeta-prenda-marca-hecha {
+  background: var(--surface);
+  border: 1px dashed var(--stitch);
+  color: var(--ink);
+}
+
+.tarjeta-prenda-marca-planeada {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.tarjeta-prenda-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding: 0 4px;
+}
+
+.tarjeta-prenda-nombre {
+  font-size: var(--tipo-secundario);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarjeta-prenda-detalle {
+  font-size: var(--tipo-etiqueta);
+  color: var(--muted);
+}

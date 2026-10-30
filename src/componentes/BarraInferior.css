@@ -1,0 +1,71 @@
+/* BarraInferior flotante (diseño, Navegación; tokens `nav`). Está a 26 px del borde de la pantalla,
+   como en el diseño, que ya está dibujado sobre un iPhone con indicador de inicio: la barra queda
+   por encima del indicador sin sumar el área segura. */
+
+.barra-inferior {
+  position: fixed;
+  left: calc(var(--nav-inset) + var(--seguro-izquierda));
+  right: calc(var(--nav-inset) + var(--seguro-derecha));
+  bottom: var(--nav-inferior);
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  height: var(--nav-altura);
+  border-radius: var(--radius-nav);
+  background: var(--nav);
+}
+
+.barra-inferior-pestana {
+  height: 100%;
+  min-width: var(--toque-minimo);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--nav-muted);
+  font-family: var(--font-sans);
+  font-size: var(--tipo-nav);
+  text-transform: var(--label-case);
+  letter-spacing: var(--label-tracking);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.barra-inferior-pestana[aria-current='page'] {
+  color: var(--nav-ink);
+}
+
+.barra-inferior-celda-mas {
+  display: flex;
+  justify-content: center;
+}
+
+.barra-inferior-mas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nav-boton-mas);
+  height: var(--nav-boton-mas);
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--nav-boton-mas) / 2);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.barra-inferior-pestana:focus-visible,
+.barra-inferior-mas:focus-visible {
+  outline: 2px solid var(--nav-ink);
+  outline-offset: -4px;
+}
+
+/* Lo que la barra tapa: las pantallas con pestañas dejan este espacio al final de su contenido. */
+:root {
+  --espacio-barra-inferior: calc(var(--nav-inferior) + var(--nav-altura) + var(--espacio-6));
+}

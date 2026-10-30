@@ -1,0 +1,26 @@
+/* Contenido de una hoja de confirmación (03b Confirmar eliminar). La hoja ya pone el gap de 14 px. */
+
+.hoja-confirmar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+}
+
+.hoja-confirmar .t-hoja {
+  line-height: 1.1;
+}
+
+.hoja-confirmar-texto {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--tipo-cuerpo);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.hoja-confirmar-botones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  padding-top: 6px;
+}
