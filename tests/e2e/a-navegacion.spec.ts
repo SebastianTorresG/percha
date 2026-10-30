@@ -213,6 +213,24 @@ test('A5.7 tocar una fila baja la hoja y después abre la pantalla', async ({ pa
   expect(estados.filter((e) => e.endsWith('12 Mis medidas') && !e.startsWith('sin hoja'))).toEqual([]);
 });
 
+test('A5.9 un toque que empieza en la zona oscura y termina en la hoja no le quita el foco', async ({ page }) => {
+  await abrir(page);
+  await abrirMenu(page);
+  // Como un toque mientras la hoja sube: el mousedown cae en la zona oscura y el mouseup en la
+  // hoja, así que el click va al contenedor de los dos y no cierra nada (A12.10 lo encontró así).
+  // Se mide con la hoja ya quieta.
+  await expect.poll(() => hoja(page).evaluate((h) => h.getAnimations().length)).toBe(0);
+  const caja = (await hoja(page).boundingBox())!;
+  await page.mouse.move(caja.x + 40, caja.y - 20);
+  await page.mouse.down();
+  await page.mouse.move(caja.x + 40, caja.y + 10);
+  await page.mouse.up();
+  await expect(hoja(page)).toBeVisible();
+  await expect(hoja(page)).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(hoja(page)).toHaveCount(0);
+});
+
 test('A5.8 abrir y cerrar la hoja 15 veces seguidas nunca la deja trabada', async ({ page }) => {
   await abrir(page);
   for (let i = 0; i < 15; i++) {

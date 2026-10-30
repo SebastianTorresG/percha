@@ -96,7 +96,11 @@ test('A12.10 tocar muchos botones muy rápido no deja errores ni pantallas rotas
   // Nunca un fondo oscurecido sin hoja.
   expect(await page.locator('.hoja-scrim').count()).toBe(await hoja(page).count());
   // Y la app sigue respondiendo: se puede volver a Hoy y abrir Ajustes.
-  while ((await hoja(page).count()) > 0) await page.keyboard.press('Escape');
+  for (let i = 0; i < 5 && (await hoja(page).count()) > 0; i++) {
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(400);
+  }
+  await expect(hoja(page), 'Escape cierra la hoja que quedó abierta').toHaveCount(0);
   for (let i = 0; i < 6 && (await page.getByRole('button', { name: 'Volver' }).count()) > 0; i++) {
     await page.getByRole('button', { name: 'Volver' }).click();
   }

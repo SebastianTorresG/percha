@@ -143,7 +143,15 @@ export function HojaInferior({ etiqueta, alCerrar, pantalla, children }: PropsHo
 
   return (
     <Contexto.Provider value={{ cerrar }}>
-      <div className="hoja-scrim" data-fundido data-saliendo={saliendo || undefined} onClick={() => cerrar()} />
+      <div
+        className="hoja-scrim"
+        data-fundido
+        data-saliendo={saliendo || undefined}
+        // Un toque que empieza aquí y termina en la hoja (por ejemplo, mientras sube) no cierra nada:
+        // sin esto, le quitaría el foco y Escape y el ciclo de Tab dejarían de funcionar.
+        onMouseDown={(evento) => evento.preventDefault()}
+        onClick={() => cerrar()}
+      />
       <div
         ref={hoja}
         className="hoja"

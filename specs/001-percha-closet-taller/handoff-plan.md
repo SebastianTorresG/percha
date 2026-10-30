@@ -167,7 +167,7 @@ Al dueño ya se le explicó qué es un spike.
 - Cambio de contrato: `manifest.imagenes[].creada`, para que la ida y vuelta sea exacta. El lector acepta una carpeta raíz y `__MACOSX/`. Ya está en `contracts/respaldo.md` y en research R-10 y R-14.
 - Probado en el navegador (2026-10-30): Hoy muestra el aviso de 01b con una prenda y sin respaldo; Ajustes se ve como 09 en claro y oscuro.
 - Previsualización con US1 publicada el 2026-10-30 en https://percha-preview.percha-spike-recorte.workers.dev (versión b05a506a).
-- Pruebas manuales: `docs/pruebas-intensivas.md` (320 pruebas; empezar por A14) y respaldos de prueba con datos en `docs/respaldos-de-prueba/` (`npm run respaldos:prueba`).
+- Pruebas manuales: `docs/pruebas-intensivas.md` (321 pruebas; empezar por A14) y respaldos de prueba con datos en `docs/respaldos-de-prueba/` (`npm run respaldos:prueba`).
 - Pendiente: T056 en el iPhone.
 
 ## Pruebas intensivas automatizadas (2026-10-30)
@@ -193,4 +193,5 @@ Al dueño ya se le explicó qué es un spike.
 - Menores, en el mismo cambio: el Menú muestra el año del último respaldo si no es el actual (como Ajustes), "Exportarlo" se deshabilita mientras la hoja de compartir está abierta y el README pone "Probarla a fondo" después del paso 5.
 - `npm audit`: nada que llegue a la app publicada; `wrangler` 4.152.0 trae `undici` con avisos altos (solo desarrollo). Queda como T172, con el dueño.
 - `npm run modelo:descargar` apunta a `scripts/descargar-modelo.ts`, que todavía no existe: lo crea T061 (US2).
-- **Falta**: publicar T171 en `percha-preview` (cambia la app instalada en el iPhone, así que va con el dueño) y, en el iPhone, A7.13 y A10.7 si aparece el segundo toque.
+- Publicado con el dueño de acuerdo (`npm run test:desplegada`). La primera corrida (versión cb449ad6) dio 302 de 303: A12.10 en Pro Max se quedó pulsando Escape sobre un Menú abierto. La traza mostró un toque que empezó en la zona oscura y terminó en la hoja mientras subía: no la cerró, pero le quitó el foco, y Escape dejó de funcionar. **Corregido (T173)**, con la prueba A5.9, que falla en esa versión publicada en los tres perfiles; A12.10 ya no se cuelga si una hoja queda abierta.
+- **Falta en el iPhone**: A7.13 y A10.7 (si aparece el segundo toque) y A5.9 (con un teclado conectado).

@@ -149,6 +149,7 @@ sección A14 los recorre paso a paso.
 | A5.6 | Ciérrala tocando la zona oscura de arriba | Se cierra | |
 | A5.7 | Toca una fila | La hoja baja y después se abre la pantalla | |
 | A5.8 | Abre y cierra la hoja 15 veces seguidas rápido | Nunca queda una hoja trabada ni la pantalla oscurecida sin hoja | |
+| A5.9 | Con un teclado conectado al iPhone: abre ⋯, toca la zona oscura justo mientras la hoja sube y luego pulsa Escape | La hoja se cierra con Escape (si el toque no la cerró) | |
 
 ### A6. Ajustes (09)
 
