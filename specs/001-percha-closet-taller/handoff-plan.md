@@ -175,5 +175,6 @@ Al dueño ya se le explicó qué es un spike.
 - La Parte A del plan, en lo que no necesita el teléfono físico, corre con `npm run test:e2e` (T168): 56 pruebas × 3 perfiles de iPhone en el WebKit de Playwright, con perfil persistente y la hoja de compartir simulada. 168 de 168 pasan.
 - Encontraron un bug grave, ya corregido (T167, research R-14): tras importar un respaldo y volver a abrir la app, WebKit devolvía cada foto como el ZIP entero, porque se guardaba el `slice` del archivo. Exportar daba un archivo dañado y restaurar la copia automática decía "dañado". Ahora se guardan copias propias de los bytes. Regla para US2 en adelante: nunca guardar un `slice` en IndexedDB.
 - También: una segunda `<meta name="theme-color">` del plugin PWA (quitada) y el puerto de Vitest en modo navegador (ahora 4175).
-- Falta en el iPhone: A14.29 (confirma el arreglo) y el resto de T056. La previsualización publicada todavía no tiene el arreglo: hay que volver a desplegar (`npm run deploy:preview`) antes de probar.
+- Previsualización con el arreglo publicada el 2026-10-30 (versión f4da0850), con el dueño de acuerdo. Verificado desde la computadora: headers COOP/COEP, una sola `theme-color` y el mismo bundle que el build local.
+- Falta en el iPhone: A14.29 (confirma el arreglo) y el resto de T056. Como el service worker es "prompt", la app instalada muestra "Hay una versión nueva de Percha" en Ajustes: hay que tocar "Actualizar" antes de probar.
 - M4 resuelto (2026-10-30): el dueño aprobó la regla de T045 y quedó en FR-005 y en el escenario 3b de US1.
