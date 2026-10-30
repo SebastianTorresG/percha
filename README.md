@@ -55,16 +55,16 @@ botón **Respaldar**.
 5. Si te arrepientes, en Ajustes toca **Restaurar el respaldo automático del [fecha]**. Restaurar
    también se puede deshacer de la misma forma.
 
+### 5. Ver cuánto espacio usa
+
+**Ajustes → Espacio** muestra cuánto ocupa Percha, cuántas prendas, outfits y maniquíes hay, y si
+iOS protege el almacenamiento para que no lo borre solo.
+
 ### Probarla a fondo
 
 [`docs/pruebas-intensivas.md`](docs/pruebas-intensivas.md) tiene el plan de pruebas manuales:
 lo que se puede probar hoy, lo de cada historia cuando esté lista y las pruebas de volumen. Lo que
 no necesita el iPhone físico corre solo en la computadora con `npm run test:e2e`.
-
-### 5. Ver cuánto espacio usa
-
-**Ajustes → Espacio** muestra cuánto ocupa Percha, cuántas prendas, outfits y maniquíes hay, y si
-iOS protege el almacenamiento para que no lo borre solo.
 
 ---
 

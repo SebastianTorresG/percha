@@ -62,6 +62,7 @@ function TarjetaRespaldo({ ultimoRespaldo }: { ultimoRespaldo: number | undefine
   const auto = useRespaldoAuto();
   const [estado, setEstado] = useState<EstadoImportar>({ fase: 'inactivo' });
   const [mensajeAuto, setMensajeAuto] = useState<string>();
+  const [exportandoAuto, setExportandoAuto] = useState(false);
   const entrada = useRef<HTMLInputElement>(null);
 
   const ocupado =
@@ -93,24 +94,29 @@ function TarjetaRespaldo({ ultimoRespaldo }: { ultimoRespaldo: number | undefine
     }
   };
 
+  // Un segundo toque mientras la hoja de compartir está abierta haría fallar `share` (InvalidStateError).
   const exportarAuto = async () => {
     setMensajeAuto(undefined);
-    const ultimo = await obtenerUltimo();
-    if (!ultimo) return;
+    setExportandoAuto(true);
     try {
+      const ultimo = await obtenerUltimo();
+      if (!ultimo) return;
       const resultado = await entregar(archivoRespaldoAuto(ultimo), { marcar: false });
       if (resultado === 'necesita_toque') setMensajeAuto('Vuelve a tocar "Exportarlo" para guardar la copia.');
     } catch (error) {
       registrarError(error, 'Exportar respaldo automático');
       setMensajeAuto('No se pudo exportar la copia automática. Vuelve a intentarlo.');
+    } finally {
+      setExportandoAuto(false);
     }
   };
 
+  // Lo que está pasando primero: mientras se revisa o se importa, un archivo listo de antes espera.
   let mensaje: string | undefined;
-  if (exportacion.estado.fase === 'listo') mensaje = 'Tu respaldo está listo. Tócalo para guardarlo en Archivos o iCloud.';
-  else if (exportacion.estado.fase === 'error') mensaje = exportacion.estado.mensaje;
-  else if (estado.fase === 'revisando') mensaje = 'Revisando el respaldo…';
+  if (estado.fase === 'revisando') mensaje = 'Revisando el respaldo…';
   else if (estado.fase === 'importando') mensaje = 'Importando… No cierres Percha.';
+  else if (exportacion.estado.fase === 'listo') mensaje = 'Tu respaldo está listo. Tócalo para guardarlo en Archivos o iCloud.';
+  else if (exportacion.estado.fase === 'error') mensaje = exportacion.estado.mensaje;
   else if (estado.fase === 'hecho' || estado.fase === 'error') mensaje = estado.mensaje;
 
   return (
@@ -124,7 +130,7 @@ function TarjetaRespaldo({ ultimoRespaldo }: { ultimoRespaldo: number | undefine
       </p>
       <div className="ajustes-botones">
         {exportacion.estado.fase === 'listo' ? (
-          <BotonPrincipal className="ajustes-exportar" onClick={() => void exportacion.guardar()}>
+          <BotonPrincipal className="ajustes-exportar" onClick={() => void exportacion.guardar()} disabled={ocupado}>
             Guardar respaldo
           </BotonPrincipal>
         ) : (
@@ -151,7 +157,7 @@ function TarjetaRespaldo({ ultimoRespaldo }: { ultimoRespaldo: number | undefine
           <BotonTexto onClick={() => setEstado({ fase: 'confirmarRestaurar', creado: auto.creado })} disabled={ocupado}>
             Restaurar el respaldo automático del {formatearDiaMesAnio(auto.creado)}
           </BotonTexto>
-          <BotonTexto onClick={() => void exportarAuto()} disabled={ocupado}>
+          <BotonTexto onClick={() => void exportarAuto()} disabled={ocupado || exportandoAuto}>
             Exportarlo
           </BotonTexto>
           {mensajeAuto && (

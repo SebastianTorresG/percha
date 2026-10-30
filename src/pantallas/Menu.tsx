@@ -5,7 +5,7 @@ import { useAjustes } from '../datos/repos/ajustes';
 import { ID_MEDIDAS } from '../datos/tipos';
 import type { EntradaPantalla } from '../navegacion/rutas';
 import { useNavegacion } from '../navegacion/useNavegacion';
-import { formatearDiaMes } from '../util/fechas';
+import { formatearDiaMes, formatearDiaMesAnio } from '../util/fechas';
 import './Menu.css';
 
 function Fila({ titulo, subtitulo, destino }: { titulo: string; subtitulo?: string; destino: EntradaPantalla }) {
@@ -54,7 +54,7 @@ export default function Menu() {
     ajustes === undefined
       ? undefined
       : ajustes.ultimoRespaldo
-        ? `Último respaldo: ${formatearDiaMes(ajustes.ultimoRespaldo)}`
+        ? `Último respaldo: ${formatearDiaMesAnio(ajustes.ultimoRespaldo)}`
         : 'Todavía no hay respaldo';
 
   return (

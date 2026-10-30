@@ -92,6 +92,34 @@ test.describe('A7 exportar', () => {
       await expect(page.getByRole('button', { name: 'Exportar', exact: true })).toBeVisible();
       await expect(pantalla(page).getByText(/^Último respaldo: 30 de octubre\./)).toBeVisible();
     });
+
+    test('A7.13 el archivo listo se descarta si se importa otro respaldo; cancelar el reemplazo lo conserva', async ({ page }) => {
+      await abrir(page);
+      await irAAjustes(page);
+      await cargarCompleto(page);
+      await exportar(page);
+      await expect(page.getByRole('button', { name: 'Guardar respaldo' })).toBeVisible();
+
+      // Cancelar el reemplazo no cambia nada: el archivo listo sigue sirviendo.
+      await importar(page, RESPALDOS.chico);
+      await hoja(page).getByRole('button', { name: 'Cancelar' }).click();
+      await expect(hoja(page)).toHaveCount(0);
+      await expect(page.getByRole('button', { name: 'Guardar respaldo' })).toBeVisible();
+
+      await importar(page, RESPALDOS.chico);
+      await hoja(page).getByRole('button', { name: 'Reemplazar todo' }).click();
+      await expect(mensajeRespaldo(page)).toHaveText('Listo: se restauró el respaldo del 28 de octubre.');
+      await expect(conteos(page)).toHaveText(CHICO);
+      await expect(page.getByRole('button', { name: 'Guardar respaldo' })).toHaveCount(0);
+      await expect(pantalla(page).getByText(/^Último respaldo: 28 de octubre\./)).toBeVisible();
+      expect(await cantidadCompartidos(page)).toBe(0);
+
+      // Exportar otra vez arma el archivo con lo que hay ahora.
+      await exportar(page);
+      await expect.poll(() => cantidadCompartidos(page)).toBe(1);
+      const zip = await abrirZip((await ultimoCompartido(page))!.bytes);
+      expect((await zip.json('manifest.json')).conteos).toMatchObject({ prendas: 3, outfits: 1, maniquies: 1 });
+    });
   });
 
   test.describe('sin hoja de compartir (escritorio)', () => {
@@ -336,6 +364,30 @@ test.describe('A10 aviso de respaldo en Hoy', () => {
     await expect(aviso(page)).toHaveCount(0);
     const archivo = (await ultimoCompartido(page))!;
     expect((await (await abrirZip(archivo.bytes)).json('manifest.json')).conteos).toMatchObject({ prendas: 20, outfits: 4, maniquies: 2 });
+  });
+
+  test.describe('iOS no abre la hoja porque armar el archivo tardó', () => {
+    test.use({ compartir: 'vencido' });
+
+    test('A10.7 el archivo listo del aviso se descarta si después se importa otro respaldo', async ({ page }) => {
+      await abrir(page);
+      await irAAjustes(page);
+      await cargarCompleto(page);
+      await page.getByRole('button', { name: 'Volver' }).click();
+      await aviso(page).getByRole('button', { name: 'Respaldar' }).click();
+      await expect(aviso(page)).toContainText('Tu respaldo está listo.');
+      await expect(aviso(page).getByRole('button', { name: 'Guardarlo' })).toBeVisible();
+
+      // Hoy queda montada debajo de Ajustes mientras se importa.
+      await irAAjustes(page);
+      await importar(page, RESPALDOS.completo);
+      await page.getByRole('button', { name: 'Reemplazar todo' }).click();
+      await expect(mensajeRespaldo(page)).toHaveText(LISTO_COMPLETO);
+      await page.getByRole('button', { name: 'Volver' }).click();
+      await expect(aviso(page)).toContainText('Tu último respaldo fue hace 4 semanas.');
+      await expect(aviso(page).getByRole('button', { name: 'Respaldar' })).toBeVisible();
+      expect(await cantidadCompartidos(page)).toBe(0);
+    });
   });
 
   for (const [dia, texto] of [

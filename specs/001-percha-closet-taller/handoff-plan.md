@@ -167,7 +167,7 @@ Al dueño ya se le explicó qué es un spike.
 - Cambio de contrato: `manifest.imagenes[].creada`, para que la ida y vuelta sea exacta. El lector acepta una carpeta raíz y `__MACOSX/`. Ya está en `contracts/respaldo.md` y en research R-10 y R-14.
 - Probado en el navegador (2026-10-30): Hoy muestra el aviso de 01b con una prenda y sin respaldo; Ajustes se ve como 09 en claro y oscuro.
 - Previsualización con US1 publicada el 2026-10-30 en https://percha-preview.percha-spike-recorte.workers.dev (versión b05a506a).
-- Pruebas manuales: `docs/pruebas-intensivas.md` (318 pruebas; empezar por A14) y respaldos de prueba con datos en `docs/respaldos-de-prueba/` (`npm run respaldos:prueba`).
+- Pruebas manuales: `docs/pruebas-intensivas.md` (320 pruebas; empezar por A14) y respaldos de prueba con datos en `docs/respaldos-de-prueba/` (`npm run respaldos:prueba`).
 - Pendiente: T056 en el iPhone.
 
 ## Pruebas intensivas automatizadas (2026-10-30)
@@ -185,3 +185,12 @@ Al dueño ya se le explicó qué es un spike.
 - Avisos para Claude Design (no se cambian sin el dueño): contraste por debajo de WCAG AA en `--muted` claro sobre `--surface` y `--bg` (3,77 y 3,44:1), `--on-accent` sobre `--accent` claro (3,55:1) y `--nav-muted` sobre `--nav` oscuro (3,64:1).
 - Siguiente: US2 (T057+). Cuando una historia agregue pantallas, sumar sus estados a `tests/e2e/visual.spec.ts` y regenerar las capturas con `--update-snapshots` después de revisarlas a ojo.
 - M4 resuelto (2026-10-30): el dueño aprobó la regla de T045 y quedó en FR-005 y en el escenario 3b de US1.
+
+## Pruebas intensivas y revisión del repositorio (2026-10-30, tarde)
+
+- `npm run test:desplegada -- --sin-desplegar` contra la versión publicada 568250d0 (el mismo código de la app que `e6c4db1`): 297 de 297, sin bugs visuales y con los mismos avisos de contraste. En local también pasan los tipos, 138 pruebas de unidad e integración, 26 en WebKit y 294 e2e; con el arreglo de abajo, 141, 26 y 300.
+- **Bug encontrado y corregido (T171)**: si iOS vencía el toque al exportar y el archivo quedaba esperando "Guardar respaldo" (o "Guardarlo" en Hoy), importar otro respaldo no lo descartaba: al tocarlo se entregaba el archivo de antes y `ultimoRespaldo` quedaba en "ahora" sobre datos que no estaban en él. En Ajustes, además, "Listo: se restauró…" quedaba tapado por "Tu respaldo está listo". Las pruebas nuevas A7.13 y A10.7 fallan contra la versión publicada y pasan con el arreglo. Regla para US2 en adelante: cualquier escritura en la base descarta el archivo listo (`useExportar` escucha `Dexie.on.storagemutated`).
+- Menores, en el mismo cambio: el Menú muestra el año del último respaldo si no es el actual (como Ajustes), "Exportarlo" se deshabilita mientras la hoja de compartir está abierta y el README pone "Probarla a fondo" después del paso 5.
+- `npm audit`: nada que llegue a la app publicada; `wrangler` 4.152.0 trae `undici` con avisos altos (solo desarrollo). Queda como T172, con el dueño.
+- `npm run modelo:descargar` apunta a `scripts/descargar-modelo.ts`, que todavía no existe: lo crea T061 (US2).
+- **Falta**: publicar T171 en `percha-preview` (cambia la app instalada en el iPhone, así que va con el dueño) y, en el iPhone, A7.13 y A10.7 si aparece el segundo toque.

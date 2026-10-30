@@ -180,6 +180,7 @@ sección A14 los recorre paso a paso.
 | A7.10 | Toca Exportar dos veces muy rápido | Se arma un solo archivo; el botón queda deshabilitado mientras prepara | |
 | A7.11 | Exportar y, mientras dice "Preparando…", manda la app a segundo plano y vuelve | Termina bien, o se puede volver a tocar Exportar sin errores | |
 | A7.12 | **[con datos]** Exporta con muchas prendas | Anota tamaño y tiempo; la app no se cierra sola | |
+| A7.13 | **[con datos]** Si aparece **Guardar respaldo** (A7.6), no lo toques: importa otro respaldo y confirma **Reemplazar todo** | "Listo: se restauró…"; el botón vuelve a ser **Exportar** (el archivo de antes ya no sirve). Si cancelas el reemplazo, **Guardar respaldo** sigue | |
 
 ### A8. Importar respaldo
 
@@ -228,6 +229,7 @@ Necesita datos: se crea al importar sobre una app que ya tenía algo.
 | A10.4 | **[con datos]** Toca Respaldar y cancela la hoja | El aviso sigue | |
 | A10.5 | **[con datos]** Deja la app abierta en Hoy hasta pasada la medianoche (o cambia la fecha del iPhone) | La fecha de arriba cambia sola al volver a la app | |
 | A10.6 | Con datos y un respaldo de hace exactamente 14 días | Todavía no avisa; al día 15 sí | |
+| A10.7 | **[con datos]** Si el aviso dice "Tu respaldo está listo." con **Guardarlo**, ve a Ajustes e importa un respaldo viejo (más de 14 días) | Al volver a Hoy, el aviso vuelve a decir "Tu último respaldo fue hace N semanas." con **Respaldar** | |
 
 ### A11. Panel de diagnóstico e integridad
 
@@ -559,4 +561,5 @@ Usa los archivos de [`respaldos-de-prueba/`](respaldos-de-prueba/README.md). Emp
 |---|---|---|---|---|---|
 | 2026-10-30 | Sin iPhone: WebKit de Playwright en Windows, perfiles iPhone 15, SE y Pro Max | 0.1.0 (rama `claude/pruebas-intensivas-c52d4b`) | Parte A automatizable (56 pruebas × 3 perfiles: A1.3–A1.4, A2.1–A2.4, A3.1–A3.5, A3.7, A4.1–A4.5, A4.7, A4.9, A4.10, A5.1–A5.8, A6.1–A6.3, A6.5–A6.7, A7.1–A7.4, A7.6, A7.8, A7.10, A8.1, A8.3–A8.15, A9.1–A9.8, A10.1–A10.4, A10.6, A11.1–A11.5, A12.3, A12.4 parcial, A12.10, A14.1–A14.27, A15.6, A15.8, A16.9, A16.10, D1–D3) | Antes de arreglar: A9.3/A9.4 y A14.10/A14.11 (restaurar la copia automática decía "dañado") y exportar después de reabrir la app (las fotos importadas se leían como el ZIP entero); A1.3/A1.4 (dos `theme-color`) | Arreglados el mismo día (research R-14). Después: 168 de 168. Falta confirmarlo en el iPhone con A14.29 |
 | 2026-10-30 | Sin iPhone: la app publicada en `percha-preview` (versión 568250d0), WebKit de Playwright con los tres perfiles | 0.1.0 (commit `bc52ca5`) | `npm run test:desplegada`: Parte A, despliegue y visual (339 pruebas, 297 corridas) | Antes de arreglar: el "+" de la barra en peso 400 (faltaba el 300) y las filas del Menú sin separación | Arreglados (T170). Después: 297 de 297. Avisos de contraste para Claude Design en `docs/reportes/pruebas-desplegada.md` |
+| 2026-10-30 | Sin iPhone: la app publicada (versión 568250d0, sin redesplegar) y el build local, WebKit de Playwright con los tres perfiles | 0.1.0 (commit `e6c4db1` más T171) | `npm run test:desplegada -- --sin-desplegar` (297 de 297) y la suite local, con A7.13 y A10.7 nuevas | A7.13 y A10.7 fallan en la versión publicada: después de importar, "Guardar respaldo" y "Guardarlo" entregaban el archivo de antes | Arreglado (T171): 300 de 300 en local. Falta publicarlo en `percha-preview` y probarlo en el iPhone |
 | | | | | | |

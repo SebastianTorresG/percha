@@ -65,6 +65,10 @@ Los registros de cada tabla tal como están en la base, **sin** blobs (las imág
    con `<a download>`.
 5. Solo si la entrega se completa (la promesa de `share` se resuelve, o se dispara la descarga), se
    fija `ajustes.ultimoRespaldo = ahora`. Si la usuaria cancela la hoja de compartir, no cambia.
+6. Si iOS no abre la hoja porque se venció el toque (`NotAllowedError`), el archivo ya armado espera
+   un segundo toque. Si mientras tanto cambia algo que va en el respaldo (cualquier tabla menos
+   `respaldosAuto`, por ejemplo al importar otro respaldo), ese archivo se descarta y hay que volver
+   a exportar: guardarlo fijaría `ultimoRespaldo` sobre datos que no están en él (T171).
 
 ## Importar: validar antes de tocar nada (FR-004)
 
