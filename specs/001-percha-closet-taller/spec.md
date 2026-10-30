@@ -56,6 +56,8 @@ comparar que todo quedó idéntico.
    incluidos Taller, siluetas personalizadas, medidas y asignaciones del calendario.
 3. **Given** que el último respaldo fue hace más de 14 días, **When** abre Hoy, **Then** ve el
    aviso suave de respaldo.
+3b. **Given** que nunca hizo un respaldo y ya tiene al menos una prenda, **When** abre Hoy,
+   **Then** ve el aviso suave de respaldo.
 4. **Given** un archivo de respaldo dañado o de otra app, **When** intenta importarlo, **Then** ve
    un mensaje claro y sus datos actuales no cambian.
 5. **Given** datos existentes, **When** importa un respaldo válido y confirma, **Then** se guarda
@@ -289,7 +291,9 @@ abrir.
   dispositivo un respaldo automático de los datos anteriores, que la usuaria puede restaurar.
 - **FR-004**: El respaldo MUST incluir la versión de su formato; la app MUST validar el archivo
   antes de modificar cualquier dato.
-- **FR-005**: Hoy MUST mostrar un aviso suave de respaldo si pasaron más de 14 días desde el último.
+- **FR-005**: Hoy MUST mostrar un aviso suave de respaldo si pasaron más de 14 días de calendario
+  desde el último, o si nunca se hizo un respaldo y hay al menos una prenda. Con el clóset vacío
+  no se muestra.
 - **FR-006**: Ajustes MUST mostrar el espacio usado por la app.
 
 **Prendas**

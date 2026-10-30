@@ -23,8 +23,8 @@ En la nueva sesión, abierta en `D:\App-Closet-Sofi`, pide algo como:
   research R-7, T060, T063, T070, T153 y T160), H1 (Hoy, el Armador y las miniaturas usan el
   maniquí del outfit; T104, T109 y T123) y H2 (SC-006 y FR-061 sin contar la primera descarga;
   Clarifications, sesión 2026-10-22).
-- Quedan sin aplicar M1–M6 y L1–L7. M1 (umbrales de SC-004 y SC-009) y M4 (aviso de respaldo
-  cuando nunca se respaldó) requieren una decisión del dueño.
+- Quedan sin aplicar M1–M3, M5, M6 y L1–L7. M1 (umbrales de SC-004 y SC-009) requiere una
+  decisión del dueño. M4 se resolvió el 2026-10-30 (ver US1 más abajo).
 - **T001 hecha** (2026-10-22): la página del spike está en `spike/recorte/` y funciona en el
   escritorio, también sin servidor. Hallazgos en research.md R-0 (*Página del spike*): ONNX Runtime
   debe ser la versión `1.21.0-dev.20250206-d981b153d3`, la máscara sale con `segmentForeground()`
@@ -167,4 +167,5 @@ Al dueño ya se le explicó qué es un spike.
 - Cambio de contrato: `manifest.imagenes[].creada`, para que la ida y vuelta sea exacta. El lector acepta una carpeta raíz y `__MACOSX/`. Ya está en `contracts/respaldo.md` y en research R-10 y R-14.
 - Probado en el navegador (2026-10-30): Hoy muestra el aviso de 01b con una prenda y sin respaldo; Ajustes se ve como 09 en claro y oscuro.
 - Previsualización con US1 publicada el 2026-10-30 en https://percha-preview.percha-spike-recorte.workers.dev (versión b05a506a).
-- Pendiente: T056 en el iPhone y decidir M4 (aviso cuando nunca se respaldó; hoy avisa en cuanto hay una prenda).
+- Pendiente: T056 en el iPhone.
+- M4 resuelto (2026-10-30): el dueño aprobó la regla de T045 y quedó en FR-005 y en el escenario 3b de US1.
