@@ -167,5 +167,6 @@ Al dueño ya se le explicó qué es un spike.
 - Cambio de contrato: `manifest.imagenes[].creada`, para que la ida y vuelta sea exacta. El lector acepta una carpeta raíz y `__MACOSX/`. Ya está en `contracts/respaldo.md` y en research R-10 y R-14.
 - Probado en el navegador (2026-10-30): Hoy muestra el aviso de 01b con una prenda y sin respaldo; Ajustes se ve como 09 en claro y oscuro.
 - Previsualización con US1 publicada el 2026-10-30 en https://percha-preview.percha-spike-recorte.workers.dev (versión b05a506a).
+- Pruebas manuales: `docs/pruebas-intensivas.md` (317 pruebas; empezar por A14) y respaldos de prueba con datos en `docs/respaldos-de-prueba/` (`npm run respaldos:prueba`).
 - Pendiente: T056 en el iPhone.
 - M4 resuelto (2026-10-30): el dueño aprobó la regla de T045 y quedó en FR-005 y en el escenario 3b de US1.
