@@ -7,6 +7,7 @@ de cada historia. Aquí están los casos raros, los bordes y el estrés.
 - **Parte A**: lo que ya está construido. Se puede correr hoy.
 - **Parte B**: una sección por historia. Se corre cuando la historia esté hecha.
 - **Parte C**: volumen, estrés y regresión antes de entregar el regalo.
+- **Parte D**: privacidad y datos.
 
 ## Cómo usar este documento
 
@@ -52,8 +53,10 @@ Hoy funcionan la instalación, los temas, la navegación, el menú, Ajustes con 
 (exportar, importar, copia automática, espacio) y el panel de diagnóstico. Las pestañas Clóset,
 Taller y Outfits todavía están vacías.
 
-Las pruebas marcadas **[con datos]** necesitan un respaldo que traiga prendas. Hasta que exista la
-Historia 2 hace falta un archivo de prueba con datos; si no lo tienes, márcalas ⏭.
+Las pruebas marcadas **[con datos]** necesitan un respaldo que traiga prendas. Mientras no exista la
+Historia 2, usa los archivos de [`respaldos-de-prueba/`](respaldos-de-prueba/README.md): el
+**completo** (20 prendas, del 1 de octubre) y el **chico** (3 prendas, del 28 de octubre). La
+sección A14 los recorre paso a paso.
 
 ### A1. Instalación (T038)
 
@@ -229,6 +232,76 @@ Necesita datos: se crea al importar sobre una app que ya tenía algo.
 Sigue las instrucciones de la página del spike y pega el resultado de **Copiar resultados**. Las
 pruebas del recorte dentro de la app están en B2.
 
+### A14. Con los respaldos de prueba
+
+Usa los archivos de [`respaldos-de-prueba/`](respaldos-de-prueba/README.md). Empieza con la app vacía.
+
+| ID | Pasos | Esperado | ✓ |
+|---|---|---|---|
+| A14.1 | Con la app vacía, importa `Percha-respaldo-2026-10-01.zip` (el completo) | Sin confirmación; "Listo: se restauró el respaldo del 1 de octubre." | |
+| A14.2 | Ajustes → Espacio | "20 prendas · 4 outfits · 2 maniquíes" | |
+| A14.3 | Ajustes → Respaldo | "Último respaldo: 1 de octubre." | |
+| A14.4 | Ve a Hoy | "Tu último respaldo fue hace N semanas." con Respaldar (el 30 de octubre dice 4 semanas) | |
+| A14.5 | Hoy → ⋯ | "2 fotos · principal: Con tenis", "Actualizadas el 3 de octubre", "Último respaldo: 1 de octubre" | |
+| A14.6 | Panel de diagnóstico → Verificar otra vez | Unas 70 imágenes; sin referencia 0; rotas 0 | |
+| A14.7 | Importa encima `Percha-respaldo-2026-10-28.zip` (el chico) | Hoja de confirmación: "…por el contenido del respaldo del 28 de octubre. Antes guardaremos una copia de lo actual en el teléfono." | |
+| A14.8 | Toca **Reemplazar todo** | "3 prendas · 1 outfit · 1 maniquí"; aparece la copia automática con la fecha de hoy; Hoy ya no avisa | |
+| A14.9 | Hoy → ⋯ | "1 foto · principal: Frente", "Todavía sin medidas", "Último respaldo: 28 de octubre" | |
+| A14.10 | Ajustes → Restaurar el respaldo automático → Restaurar | Vuelve a "20 prendas · 4 outfits · 2 maniquíes", "Último respaldo: 1 de octubre" y el aviso en Hoy | |
+| A14.11 | Restaura otra vez | Vuelve el chico (3 · 1 · 1): restaurar se deshizo | |
+| A14.12 | Importa `Percha-respaldo-version-nueva.zip` | "Este respaldo es de una versión más nueva de Percha…"; los conteos y la copia automática no cambian | |
+| A14.13 | Importa `Percha-respaldo-danado.zip` | "El respaldo está dañado y no se puede usar. Tus datos no cambiaron."; nada cambia | |
+| A14.14 | Con el completo cargado, Exportar y guardar en Archivos | "Último respaldo" pasa a hoy y el aviso de Hoy desaparece | |
+| A14.15 | Compara en Archivos el tamaño del exportado con el completo original (~97 KB) | Parecido | |
+| A14.16 | Reinicia la app desde cero e importa el archivo de A14.14 | 20 · 4 · 2 y "Último respaldo" de hoy | |
+| A14.17 | Con el completo cargado, cierra la app del todo y ábrela | Conteos intactos | |
+| A14.18 | Importa el completo en modo avión | Funciona igual | |
+| A14.19 | Importa el completo 5 veces seguidas, confirmando cada vez | Siempre 20 · 4 · 2 y una sola copia automática | |
+| A14.20 | Toca **Exportarlo** en la copia automática y guarda el archivo | `Percha-copia-automatica-AAAA-MM-DD.zip`; "Último respaldo" no cambia | |
+| A14.21 | Reinicia desde cero e importa ese archivo de copia automática | Se importa como cualquier respaldo | |
+| A14.22 | Importa el chico, luego el completo y restaura | Queda el chico | |
+| A14.23 | Mientras dice "Revisando el respaldo…", intenta tocar Importar o Exportar | Están deshabilitados | |
+| A14.24 | Repite A14.7 a A14.13 con el iPhone en modo oscuro | Mensajes y hojas legibles | |
+| A14.25 | Con la copia automática presente, mira la barra de Espacio | Tiene una segunda franja más clara para la copia | |
+| A14.26 | Con el chico cargado, cambia la fecha del iPhone al 10 de octubre (antes del respaldo) y abre Hoy | Sin aviso y sin errores | |
+| A14.27 | Con el chico cargado, cambia la fecha al 13 de noviembre y abre Hoy | "Tu último respaldo fue hace 2 semanas." | |
+| A14.28 | Vuelve a poner la fecha automática | Todo normal; la fecha de Hoy es la real | |
+
+### A15. Archivos e iCloud
+
+| ID | Pasos | Esperado | ✓ |
+|---|---|---|---|
+| A15.1 | Importa desde iCloud Drive un respaldo que no está descargado (ícono de nube) | Lo descarga y lo importa, o avisa; nunca queda colgada | |
+| A15.2 | Exporta a "En mi iPhone" e importa desde ahí | Funciona | |
+| A15.3 | Importa desde Google Drive, OneDrive o Dropbox dentro de Archivos (si los tienes) | Funciona, o anota qué pasa | |
+| A15.4 | Mándate el respaldo por Mail o WhatsApp → Guardar en Archivos → importar | Funciona | |
+| A15.5 | Exporta a "En mi iPhone", muévelo a iCloud e impórtalo | Funciona | |
+| A15.6 | Renombra un respaldo con espacios, tildes y un emoji e impórtalo | Funciona | |
+| A15.7 | Exporta con iCloud Drive lleno | Anota el aviso de iOS; la app sigue bien | |
+| A15.8 | Importa un respaldo e inmediatamente exporta | El archivo nuevo trae los datos importados | |
+| A15.9 | Borra en Archivos un respaldo exportado | La app no cambia: el archivo era una copia | |
+| A15.10 | Pasa un respaldo por AirDrop a otro iPhone, instala Percha allá e impórtalo | Mismos conteos en el otro teléfono | |
+
+### A16. iOS y multitarea
+
+| ID | Pasos | Esperado | ✓ |
+|---|---|---|---|
+| A16.1 | Bloquea el iPhone con la app en Ajustes y desbloquéalo | Sigue en Ajustes, igual | |
+| A16.2 | Con la hoja ⋯ abierta, abre el Centro de control y ciérralo | La hoja sigue bien | |
+| A16.3 | Haz una captura de pantalla en cada pantalla | Nada se activa sin querer | |
+| A16.4 | Recibe una llamada con la app abierta | Al volver, sigue igual | |
+| A16.5 | Toca un botón justo cuando baja una notificación | No se activa el botón equivocado | |
+| A16.6 | Que suene una alarma durante "Preparando…" | Termina, o se puede volver a exportar | |
+| A16.7 | Activa el modo de datos reducidos | Todo igual | |
+| A16.8 | Activa una VPN o el Relay privado de iCloud | Todo igual | |
+| A16.9 | Cambia el idioma del iPhone a inglés | La app sigue en español, con fechas en español | |
+| A16.10 | Cambia la región del iPhone a otro país | Las fechas siguen como "1 de octubre" | |
+| A16.11 | Activa Accesibilidad → Zoom y usa la app | Se puede usar | |
+| A16.12 | Activa Texto en negrita | Todo legible y sin cortes | |
+| A16.13 | Activa Aumentar contraste | Todo legible | |
+| A16.14 | Ajustes de iOS → Pantalla → Zoom de pantalla ("texto más grande") | Nada cortado ni encimado | |
+| A16.15 | Usa la app con 5 % de batería | Funciona | |
+
 ---
 
 ## Parte B — Por historia, cuando esté construida
@@ -258,6 +331,13 @@ pruebas del recorte dentro de la app están en B2.
 | B2.19 | Foto enorme (panorámica o de 48 MP) | Se procesa sin cerrarse; la original queda reducida (~1500 px) | |
 | B2.20 | Rechazar el permiso de cámara y luego tocar Tomar foto | Mensaje que explica cómo darlo; galería sigue funcionando | |
 | B2.21 | Pestaña privada de Safari: intentar guardar | Mensaje claro de que no se puede guardar ahí | |
+| B2.22 | Foto con poca luz y con flash | Recorte usable o corregible | |
+| B2.23 | Prenda colgada de una percha contra la pared | La percha no queda como parte de la prenda, o se borra fácil | |
+| B2.24 | Foto con dos prendas | Se puede quedar con una borrando la otra | |
+| B2.25 | Cancelar en cada paso del flujo sin guardar | No queda nada guardado (Integridad: sin referencia 0) | |
+| B2.26 | Prenda muy chica (un anillo, unos aretes) | Se recorta o se corrige a mano | |
+| B2.27 | Girar el iPhone mientras está la cámara abierta | La cámara no se rompe | |
+| B2.28 | Nombre de 80 caracteres con emoji | Se guarda y se ve bien cortado en la tarjeta | |
 
 ### B3. Clóset (US3)
 
@@ -275,6 +355,12 @@ pruebas del recorte dentro de la app están en B2.
 | B3.10 | Prenda negra y blanca en las tarjetas, claro y oscuro | Las dos se distinguen del fondo (SC-007) | |
 | B3.11 | Clóset vacío | Diseño 02b, con la invitación a agregar | |
 | B3.12 | Integridad después de borrar 5 prendas | Sin referencia 0, rotas 0 | |
+| B3.13 | Baja en el Clóset, abre una prenda y vuelve | Misma posición en la grilla | |
+| B3.14 | Cambia la categoría de una prenda que está en un outfit | Anota cómo queda el outfit | |
+| B3.15 | Detalle de una prenda usada | Muestra usos y la fecha del último uso (FR-017) | |
+| B3.16 | Quita todos los filtros de una vez | Vuelven todas las prendas | |
+| B3.17 | Borra 3 prendas seguidas rápido | Se borran las 3; nada huérfano | |
+| B3.18 | Detalle de una prenda sin nombre | Se ve bien, sin "undefined" ni huecos raros | |
 
 ### B4. Maniquíes (US4)
 
@@ -288,6 +374,10 @@ pruebas del recorte dentro de la app están en B2.
 | B4.6 | Foto del maniquí con mala luz o de lejos | Mensaje o recorte corregible | |
 | B4.7 | ¿Pide permiso de cámara cada vez? | Anótalo (research R-11) | |
 | B4.8 | 5 maniquíes | Lista fluida; Ajustes cuenta 5 | |
+| B4.9 | Cancelar durante el temporizador de 5 s | No toma la foto | |
+| B4.10 | Renombrar un maniquí | El nombre nuevo aparece en el menú ⋯ | |
+| B4.11 | Maniquí de cuerpo entero y otro de medio cuerpo | Anota cómo caen las prendas en cada uno | |
+| B4.12 | Maniquí con ropa holgada | Recorte usable | |
 
 ### B5. Armador (US5)
 
@@ -306,6 +396,13 @@ pruebas del recorte dentro de la app están en B2.
 | B5.11 | Cambiar el maniquí de un outfit guardado | Las prendas se ven proporcionadas sobre el otro cuerpo | |
 | B5.12 | Armador sin maniquí y sin prendas | Diseños 05b y 05c | |
 | B5.13 | Llamada entrante a mitad de un gesto | Al volver, nada quedó a medio mover | |
+| B5.14 | Prenda planeada y prendas reales en el mismo outfit | Se ven y se manipulan igual (FR-035) | |
+| B5.15 | Girar una prenda una vuelta completa | Gira suave, sin saltos | |
+| B5.16 | Escalar al mínimo y al máximo | Se detiene en 0,5× y 2,5× | |
+| B5.17 | Salir del Armador sin guardar | Anota si avisa; no se guarda nada a medias | |
+| B5.18 | Editar un outfit guardado y guardar | Se actualiza, no se duplica | |
+| B5.19 | Doble toque sobre una prenda | Anota qué hace; nada raro | |
+| B5.20 | Guardar con nombre vacío y sin etiquetas | Se guarda | |
 
 ### B6. Outfits, calendario y Hoy (US6)
 
@@ -320,6 +417,12 @@ pruebas del recorte dentro de la app están en B2.
 | B6.7 | Sin outfit para hoy | Sugerencia con prendas sin usar hace más de un mes; "Otro" cambia la sugerencia | |
 | B6.8 | Hoy cruzando la medianoche con la app abierta | Cambia al día nuevo | |
 | B6.9 | Cambio de horario (si toca) o cambio manual de zona horaria | Las fechas del calendario no se corren un día | |
+| B6.10 | Asignar outfits en el pasado y a meses de distancia | Se ven en el mes correcto | |
+| B6.11 | Cambiar de mes muy rápido en el calendario | Sin trabas ni días cruzados | |
+| B6.12 | Semana que cruza de un mes al otro y de un año al otro | Días correctos | |
+| B6.13 | "Lo usé hoy" sobre la sugerencia (sin outfit asignado) | Suma usos a esas prendas, una vez | |
+| B6.14 | Cambia la fecha del iPhone al 29 de febrero de 2028 | El calendario lo muestra bien | |
+| B6.15 | Borrar una prenda que se usó hoy | Hoy sigue funcionando | |
 
 ### B7. Hecho por mí (US7)
 
@@ -329,6 +432,10 @@ pruebas del recorte dentro de la app están en B2.
 | B7.2 | Filtro "Solo hecho por mí" | Solo esas prendas, con la marca punteada | |
 | B7.3 | Quitar una foto del proceso | Desaparece y no queda huérfana (Integridad) | |
 | B7.4 | Respaldo e importación con prendas hechas | Todo vuelve igual, incluidas las fotos del proceso | |
+| B7.5 | Quitar la marca "hecho por mí" | Anota qué pasa con los datos de costura | |
+| B7.6 | Notas muy largas | Se ven completas en el detalle | |
+| B7.7 | 10 fotos del proceso | Se ven todas; Espacio sube | |
+| B7.8 | La marca punteada en tema oscuro | Se distingue | |
 
 ### B8. Taller (US8)
 
@@ -343,6 +450,12 @@ pruebas del recorte dentro de la app están en B2.
 | B8.7 | Pasar a "en proceso" y luego terminar con una foto real | Pasa al Clóset como hecha por mí con sus datos, usos y outfits (FR-053) | |
 | B8.8 | Abrir el outfit que la usaba | La foto real ocupa el mismo centro y alto que la silueta (SC-010) | |
 | B8.9 | Taller vacío y lista por estados | Diseño 11b; agrupada por planeada, en proceso, terminada | |
+| B8.10 | Tela con una foto muy chica y otra enorme | El mosaico se ve bien en las dos | |
+| B8.11 | Escala del estampado al mínimo y al máximo | Se detiene en 0,25 y 4 | |
+| B8.12 | Borrar una planeada que está en outfits | Aviso con el número de outfits | |
+| B8.13 | Pasar de "en proceso" a "planeada" | Anota si se puede | |
+| B8.14 | Silueta importada con nombre largo y emoji | Se ve bien en la biblioteca | |
+| B8.15 | Terminar con una foto mal recortada | Se puede corregir con Pincel y Borrador | |
 
 ### B9. Mis medidas (US9)
 
@@ -352,6 +465,9 @@ pruebas del recorte dentro de la app están en B2.
 | B9.2 | Editar dos medidas | Fecha de actualización = hoy | |
 | B9.3 | Valores raros: 0, negativo, 1000, "abc", con coma decimal | Acepta "82,5"; rechaza o corrige los inválidos | |
 | B9.4 | Agregar, renombrar y borrar una medida personalizada | Funciona y se respalda | |
+| B9.5 | Borrar el valor de una medida | Queda vacía, sin error | |
+| B9.6 | Escribir "82,456" | Queda con un decimal | |
+| B9.7 | Agregar 20 medidas personalizadas | Todas visibles y en el respaldo | |
 
 ### B10. Bienvenida, apariencia e instalación (US10)
 
@@ -363,6 +479,10 @@ pruebas del recorte dentro de la app están en B2.
 | B10.4 | Selector Sistema · Claro · Oscuro | Aplica al instante y se mantiene al cerrar y abrir, sin parpadeo | |
 | B10.5 | Oscuro elegido a mano con el iPhone en claro | La app queda oscura | |
 | B10.6 | Ícono y splash en los dos modos | Correctos | |
+| B10.7 | Cerrar la app a mitad de la bienvenida | Al volver, sigue o empieza de nuevo sin datos a medias | |
+| B10.8 | Rechazar la cámara en la bienvenida | Se puede seguir o saltar el paso | |
+| B10.9 | Saltar todos los pasos | Llega a Hoy | |
+| B10.10 | Después de terminarla, cerrar y abrir | La bienvenida no vuelve a aparecer | |
 
 ---
 
@@ -378,6 +498,29 @@ pruebas del recorte dentro de la app están en B2.
 | C6 | Restaurar la copia automática del volumen | Vuelve lo de antes | |
 | C7 | Una semana de uso real: agregar ropa, armar, marcar "Lo usé hoy" cada día | Anota cualquier cosa rara | |
 | C8 | Antes de entregar: repetir toda la Parte A y los escenarios 0–13 de quickstart sobre la versión final | Todo ✅ | |
+| C9 | Con los datos sintéticos, exportar en modo avión | Funciona igual | |
+| C10 | Importar el respaldo grande en otro iPhone más viejo (si hay) | Anota tiempo; no se cierra | |
+| C11 | Abrir y cerrar el Armador 30 veces seguidas | No se pone lento (panel: URLs vivas estable) | |
+| C12 | Cambiar el tema del iPhone 20 veces con 300 prendas | Cambia rápido cada vez | |
+| C13 | Dejar la app abierta en Hoy toda la noche | A la mañana muestra el día nuevo y responde | |
+| C14 | Usar la app 30 minutos seguidos | Anota cuánta batería gastó y si el iPhone se calentó | |
+
+---
+
+## Parte D — Privacidad y datos
+
+| ID | Pasos | Esperado | ✓ |
+|---|---|---|---|
+| D1 | Después de usar la app un rato, panel de diagnóstico → Otros orígenes | 0: la app no habla con otros servidores | |
+| D2 | Descomprime un respaldo exportado y mira `datos.json` con vista rápida | Solo datos del clóset, nada más | |
+| D3 | Recorre toda la app buscando dónde pide cuenta, correo o contraseña | En ningún lado | |
+| D4 | Ajustes de iOS → Apps → Percha (o Safari) | Solo pide los permisos que usa (cámara cuando exista US2) | |
+| D5 | Ajustes de iOS → Safari → Borrar historial y datos | Anota si la app instalada pierde los datos; por eso el respaldo | |
+| D6 | Elimina la app sin respaldo y reinstala | Los datos se pierden: es lo esperado, y la guía de instalación lo advierte | |
+| D7 | Instala desde dos direcciones distintas (si las hay) | Cada una tiene sus propios datos: anótalo | |
+| D8 | [US2] En una foto del respaldo, mira la información en Archivos | Sin ubicación GPS | |
+| D9 | Selector de apps con Percha abierta | Muestra una vista previa de la pantalla; anota si molesta | |
+| D10 | Una semana entera en modo avión [con datos] | Todo funciona | |
 
 ---
 

@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
     "test": "vitest run --project unidad --project integracion",
     "test:navegador": "vitest run --project navegador",
+    "respaldos:prueba": "vitest run --project herramientas",
     "test:e2e": "playwright test",
     "modelo:descargar": "node --experimental-strip-types scripts/descargar-modelo.ts",
     "tokens": "node --experimental-strip-types scripts/generar-tokens.ts",

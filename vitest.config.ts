@@ -34,6 +34,16 @@ export default defineConfig({
         },
       },
       {
+        // No son pruebas: generan archivos para probar a mano en el iPhone (npm run respaldos:prueba).
+        extends: true,
+        test: {
+          name: 'herramientas',
+          include: ['tests/herramientas/**/*.test.ts'],
+          environment: 'node',
+          setupFiles: ['tests/setup/indexeddb.ts'],
+        },
+      },
+      {
         extends: true,
         test: {
           name: 'navegador',
