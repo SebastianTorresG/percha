@@ -80,9 +80,12 @@ Se rechaza con un mensaje claro y **sin modificar datos** (US1, escenario 4) si:
 | Una imagen del manifest falta, o su tamaño o su CRC-32 no coinciden | igual que el anterior |
 | Una referencia apunta a una imagen, prenda, maniquí, silueta u outfit que no existe | igual que el anterior |
 
-Lectura sin copias: se ubica el directorio central al final del archivo y cada entrada se obtiene con
+Lectura: se ubica el directorio central al final del archivo y cada entrada se obtiene con
 `archivo.slice(inicio, fin)`. Si una entrada está comprimida (método 8, por ejemplo porque se volvió
-a comprimir en otra app), se descomprime con `DecompressionStream('deflate-raw')`.
+a comprimir en otra app), se descomprime con `DecompressionStream('deflate-raw')`. Cada imagen se lee
+una vez para verificar su CRC-32 y se guarda como un `Blob` nuevo con esos bytes, **nunca como el
+`slice`**: WebKit guarda en IndexedDB el archivo entero detrás de un `slice` y, al recargar la app,
+lo devuelve completo en lugar del trozo (research R-14, hallazgo del 2026-10-30).
 
 Otras reglas de la implementación (T048, T052):
 
@@ -104,7 +107,7 @@ Otras reglas de la implementación (T048, T052):
 4. Si el `esquema` del archivo es anterior, migrar `datos.json` en memoria con las funciones puras
    de `migraciones/` (data-model.md, *Migraciones*).
 5. **En una sola transacción** sobre todas las tablas: vaciar y escribir los registros y las
-   imágenes (`Blob` obtenidos con `slice`). Si algo falla (por ejemplo, la cuota), la transacción se
+   imágenes (`Blob` propios con los bytes ya verificados). Si algo falla (por ejemplo, la cuota), la transacción se
    revierte y los datos anteriores quedan intactos.
 6. Volver a copiar `ajustes.apariencia` a `localStorage` y aplicar el tema.
 

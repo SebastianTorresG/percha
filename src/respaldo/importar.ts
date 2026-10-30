@@ -12,7 +12,7 @@ import { ID_AJUSTES, type Ajustes, type Apariencia, type Imagen } from '../datos
 import { registrar, registrarTiempo } from '../diagnostico/registro';
 import { aplicarTema } from '../tema/apariencia';
 import { formatearDiaMesAnio } from '../util/fechas';
-import { crc32, crc32DeBlob, crcHex } from './crc32';
+import { crc32, crcHex } from './crc32';
 import { ErrorRespaldo, type MotivoRespaldo } from './errores';
 import { generarRespaldoBlob } from './exportar';
 import { RUTA_DATOS, RUTA_MANIFEST, type Conteos, type Manifest } from './formato';
@@ -120,11 +120,13 @@ export async function leerRespaldo(
       const entrada = porNombre.get(raiz + meta.ruta);
       if (!entrada) throw danado(`Falta ${meta.ruta}`);
       if (entrada.bytes !== meta.bytes) throw danado(`${meta.ruta}: ${entrada.bytes} bytes en vez de ${meta.bytes}`);
-      // `slice` del archivo, sin copiarlo; si venía comprimido, ya descomprimido.
-      const blob = await entrada.obtener(meta.mime);
-      if (blob.size !== meta.bytes || crcHex(await crc32DeBlob(blob)) !== meta.crc32) throw danado(`${meta.ruta}: CRC-32 distinto`);
-      imagenes.push({ ...registro, blob });
-      bytes += blob.size;
+      // Una copia propia de los bytes, no el `slice` del archivo: WebKit guarda en IndexedDB el
+      // archivo entero detrás de un `slice` y, al recargar, lo devuelve completo en vez del trozo
+      // (research R-14). Se lee una sola vez para el CRC y para la copia.
+      const contenido = new Uint8Array(await (await entrada.obtener()).arrayBuffer());
+      if (contenido.length !== meta.bytes || crcHex(crc32(contenido)) !== meta.crc32) throw danado(`${meta.ruta}: CRC-32 distinto`);
+      imagenes.push({ ...registro, blob: new Blob([contenido], { type: meta.mime }) });
+      bytes += contenido.length;
     }
 
     registrarTiempo(`respaldo: leer y validar ${imagenes.length} imágenes`, performance.now() - inicio);

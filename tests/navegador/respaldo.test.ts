@@ -1,6 +1,7 @@
 // El respaldo en WebKit real (el motor de Safari), con IndexedDB de verdad: los Blob guardados se
-// referencian en el ZIP sin copiarlos, los `slice` del archivo se pueden guardar en IndexedDB y
-// `DecompressionStream('deflate-raw')` lee un respaldo re-comprimido.
+// referencian en el ZIP sin copiarlos, las fotos importadas se guardan en IndexedDB y
+// `DecompressionStream('deflate-raw')` lee un respaldo re-comprimido. Que las fotos importadas
+// sigan enteras después de recargar la página lo prueba tests/e2e/a14-respaldos-de-prueba.spec.ts.
 
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { db } from '../../src/datos/db';
@@ -29,7 +30,7 @@ describe('respaldo en WebKit', () => {
     await vaciarBase();
     await importar(await leerRespaldo(blob));
     expect(await normalizar(ordenarPorClave(await leerTablas()))).toEqual(await esperado(antes));
-    // Las imágenes importadas conservan su tipo MIME (vienen de `slice` con tipo).
+    // Las imágenes importadas conservan su tipo MIME (el del manifest).
     expect(new Set((await db.imagenes.toArray()).map((i) => i.blob.type))).toEqual(new Set(['image/png', 'image/jpeg']));
   });
 

@@ -347,9 +347,12 @@ Límites esperados (SC-009): 300 prendas, 5 maniquíes y 200 outfits.
   memoria de JavaScript**. Un respaldo de ~600 MB armado en memoria podría hacer que iOS cierre la
   app.
 - **Importar**: se lee el directorio central del ZIP al final del archivo y cada entrada se obtiene
-  con `File.slice()`, sin copiarla. Si una entrada viene comprimida (por ejemplo, porque la usuaria
+  con `File.slice()`. Si una entrada viene comprimida (por ejemplo, porque la usuaria
   re-comprimió el archivo en otra app), se descomprime con `DecompressionStream('deflate-raw')` de
-  la plataforma.
+  la plataforma. **Corrección del 2026-10-30**: las imágenes no se guardan como ese `slice` sino
+  como un `Blob` nuevo con sus bytes (ver R-14, *Hallazgo de las pruebas intensivas*). Al importar,
+  las fotos quedan en memoria hasta que termina la transacción; con un respaldo grande eso se mide
+  en el iPhone (C4, C5 y C10 de `docs/pruebas-intensivas.md`).
 - **Entrega del archivo**: `navigator.share({ files: [archivo] })` si
   `navigator.canShare({ files })` lo acepta, para guardarlo en Archivos o iCloud desde la hoja de
   compartir de iOS. Si no, se usa `<a download>`. `canShare` existe en Safari desde la 14, pero no
@@ -479,6 +482,27 @@ Límites esperados (SC-009): 300 prendas, 5 maniquíes y 200 outfits.
   que guarden fotos necesitan `launchPersistentContext` (tasks.md, *Convenciones*).
 - En el iPhone, la PWA instalada no es efímera. Si alguien abre Percha en una pestaña privada de
   Safari, guardar fotos va a fallar. US2 tiene que mostrar un mensaje claro en ese caso.
+
+### Hallazgo de las pruebas intensivas: `slice` guardado en IndexedDB (2026-10-30)
+
+- Al automatizar la Parte A de `docs/pruebas-intensivas.md` (tests/e2e) apareció que, en WebKit, un
+  `Blob` que es un `slice` de otro (de un `File` elegido en el selector o de un `Blob` en memoria)
+  se guarda bien y se lee bien **mientras vive el original**. Después de recargar la página, el
+  registro conserva su `size`, pero `arrayBuffer()` devuelve el **archivo entero** del que salió, y
+  `new Blob([registro])` también lo arma con el archivo entero.
+- Consecuencia antes de corregirlo: tras importar un respaldo y volver a abrir la app, cada foto
+  importada se leía como el ZIP completo (firma `PK`); exportar daba un ZIP de 208 KB con un
+  respaldo de 17 KB, dañado, y restaurar la copia automática decía "El respaldo está dañado".
+- Una copia propia (`new Blob([bytes])`) y un `Blob` compuesto de registros leídos de IndexedDB
+  (la copia automática) sí sobreviven a la recarga, al cierre del navegador y a que se borren los
+  registros de los que salió. Medido con scripts de Playwright sobre el WebKit de Windows.
+- **Regla**: nunca guardar en IndexedDB un `Blob` que venga de `slice()`. La importación guarda
+  copias propias (`src/respaldo/importar.ts`), y US2 y las demás historias deben guardar lo que sale
+  del canvas o de `arrayBuffer()`, no un `slice`. La e2e "A14.17 … las fotos siguen siendo fotos"
+  lo vigila. Falta confirmarlo en el iPhone (A14.17 y C5 del plan de pruebas).
+- Otros hallazgos del mismo día: `vite-plugin-pwa` agregaba una segunda `<meta name="theme-color">`
+  (ahora `injectThemeColor: false`), y el puerto por defecto de Vitest en modo navegador (63315)
+  puede caer en un rango que Windows reserva para Hyper-V (`vitest.config.ts` usa el 4175).
 
 ## R-15. Interfaz para el anclaje por pose en v2
 
