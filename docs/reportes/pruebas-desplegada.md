@@ -1,12 +1,12 @@
-# Pruebas de Percha publicada — 30 de octubre de 2026, 15:09
+# Pruebas de Percha publicada — 30 de octubre de 2026, 16:02
 
 Generado por `npm run test:desplegada` (scripts/probar-despliegue.ts). Se reescribe en cada corrida.
 
 - **URL**: https://percha-preview.percha-spike-recorte.workers.dev
-- **Despliegue**: versión 568250d0-813a-40a8-a668-f49434b9c4cb, publicada en esta corrida
-- **Código probado**: rama `claude/pruebas-intensivas-c52d4b`, commit `bc52ca5`
+- **Despliegue**: sin desplegar en esta corrida
+- **Código probado**: rama `claude/intensive-project-testing-c45c7e`, commit `e6c4db1`
 - **Navegador**: WebKit de Playwright en Windows, perfiles iPhone 15 (393 × 852), SE (375 × 667) y Pro Max (440 × 956); no reemplaza la prueba en el iPhone
-- **Resultado**: 297 pasaron, 0 fallaron, 0 inestables, 42 omitidas (453 s)
+- **Resultado**: 297 pasaron, 0 fallaron, 0 inestables, 42 omitidas (496 s)
 
 ## Fallas
 
