@@ -55,6 +55,11 @@ botón **Respaldar**.
 5. Si te arrepientes, en Ajustes toca **Restaurar el respaldo automático del [fecha]**. Restaurar
    también se puede deshacer de la misma forma.
 
+### Probarla a fondo
+
+[`docs/pruebas-intensivas.md`](docs/pruebas-intensivas.md) tiene el plan de pruebas manuales:
+lo que se puede probar hoy, lo de cada historia cuando esté lista y las pruebas de volumen.
+
 ### 5. Ver cuánto espacio usa
 
 **Ajustes → Espacio** muestra cuánto ocupa Percha, cuántas prendas, outfits y maniquíes hay, y si

@@ -66,6 +66,9 @@ en la pantalla de inicio del iPhone.
 
 ## Escenarios de validación en el iPhone
 
+Estos son los recorridos básicos de cada historia. Los casos raros, los bordes y el estrés están en
+[`docs/pruebas-intensivas.md`](../../docs/pruebas-intensivas.md).
+
 Instalar desde la URL de previsualización: Safari → Compartir → **Agregar a pantalla de inicio**, y
 abrir desde el ícono. Las mediciones se leen en el **panel de diagnóstico** (Ajustes → tocar 5 veces
 la versión).
