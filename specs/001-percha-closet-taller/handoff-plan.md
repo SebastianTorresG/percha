@@ -60,6 +60,23 @@ En la nueva sesión, abierta en `D:\App-Closet-Sofi`, pide algo como:
 - Las secciones de abajo son el traspaso original del 2026-10-19; "Pendiente de decidir" ya está
   resuelto.
 
+## Actualización 2026-11-04: app del regalo publicada (T166, parcial)
+
+- El dueño decidió regalar ya la app como versión en construcción. Eligió quedarse con el subdominio
+  actual de la cuenta (`percha-spike-recorte`): la API de Cloudflare no deja cambiar un subdominio
+  ya creado (error 10036) y el cambio por el panel se descartó.
+- **URL de producción definitiva: https://percha.percha-spike-recorte.workers.dev** (Worker
+  `percha`, versión `950f0ddc`, commit `dc74ca9`). Responde 200 con COOP/COEP, el manifest y el
+  service worker. No cambiar el subdominio ni el nombre del Worker.
+- Nuevo comando `npm run deploy:produccion`. Cada historia nueva: probar en `percha-preview` y
+  después publicar en producción.
+- La guía para quien recibe la app (misiones cortas, pensada para déficit de atención) está
+  publicada como artifact: https://claude.ai/artifact/CVGRWmQ78ATGq23HNms85n. Usa los respaldos
+  de `docs/respaldos-de-prueba/`. T163 (`docs/guia-instalacion.md`) sigue pendiente.
+- Las pruebas de punta a punta no corren en el PC con Arch Linux: el WebKit de Playwright pide
+  librerías del sistema con `sudo`. Se corrieron desde Windows (306 de 306 sobre `dc74ca9`).
+- Falta con el dueño: instalar desde la URL definitiva en el iPhone (resto de T166).
+
 ## Estado del flujo de Spec Kit
 
 | Paso | Estado | Archivo |

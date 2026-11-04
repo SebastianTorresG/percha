@@ -20,7 +20,8 @@ Run from the repo root (Node 22.12+):
 - `npm run test:e2e` — Playwright (`tests/e2e/`), WebKit with iPhone 15, SE (3rd gen) and Pro Max (440×956) profiles; builds and serves `dist/` on port 4173 (reuses a server already on 4173, so stop stale previews first). `tests/e2e/apoyo.ts` gives each test its own persistent WebKit profile and a simulated iOS share sheet (`compartir` option).
 - `npm run test:desplegada` — deploys to `percha-preview`, waits until the URL serves the new `dist/index.html`, runs every e2e spec against it (`PERCHA_URL`), plus `despliegue.spec.ts` (headers, precache, icons, splash) and `visual.spec.ts` (visual-bug detectors in `tests/e2e/visual/revisar.ts` and screenshot baselines in `visual.spec.ts-snapshots/`), then writes `docs/reportes/pruebas-desplegada.md` for handing off. `--sin-desplegar`, `--local`, `--url <u>`; args after `--playwright` go to Playwright. Regenerate baselines with `--update-snapshots` only after checking the change by eye.
 - `npm run tokens` — regenerates `src/tema/tokens.css` from the design's `tokens.json` (never edit that CSS by hand).
-- `npm run deploy:preview` — builds and deploys to the Cloudflare Worker `percha-preview` (Workers static assets, configured in `wrangler.jsonc`). Production deploys need the owner's explicit approval (T166).
+- `npm run deploy:preview` — builds and deploys to the Cloudflare Worker `percha-preview` (Workers static assets, configured in `wrangler.jsonc`). Production deploys need the owner's explicit approval each time.
+- `npm run deploy:produccion` — deploys to the Worker `percha`, the gifted app at https://percha.percha-spike-recorte.workers.dev (live since 2026-11-04). The recipient's data is tied to that origin: never rename the Worker or change the account's `percha-spike-recorte` subdomain. Test on `percha-preview` first.
 
 ## Architecture (see `specs/001-percha-closet-taller/plan.md`)
 

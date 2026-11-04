@@ -15,8 +15,11 @@ todo solo en el teléfono**: no hay cuentas ni servidor, y las fotos nunca salen
 
 ### 1. Instalarla en el iPhone
 
-1. Abre en **Safari** la dirección de la app. La previsualización actual es
-   **https://percha-preview.percha-spike-recorte.workers.dev**.
+1. Abre en **Safari** la dirección de la app:
+   **https://percha.percha-spike-recorte.workers.dev**. Es la dirección definitiva (publicada el 4
+   de noviembre de 2026) y no debe cambiar: los datos quedan atados a ella. La previsualización
+   para probar antes, `https://percha-preview.percha-spike-recorte.workers.dev`, es solo para el
+   desarrollo.
 2. Toca **Compartir** (el cuadrado con la flecha hacia arriba).
 3. Elige **Agregar a pantalla de inicio** y luego **Agregar**.
 4. Abre Percha desde el ícono nuevo. Se abre a pantalla completa, como una app normal.
@@ -99,6 +102,7 @@ npm install
 | `npm run tokens` | Regenera `src/tema/tokens.css` desde `tokens.json` del diseño |
 | `npm run modelo:descargar` | Descarga el modelo de recorte a `public/modelos/` (T061) |
 | `npm run deploy:preview` | Compila y publica en el Worker `percha-preview` de Cloudflare |
+| `npm run deploy:produccion` | Compila y publica en el Worker `percha`, la app del regalo (probar antes en la previsualización) |
 
 Las pruebas en WebKit necesitan el navegador de Playwright, que se instala una vez:
 
@@ -124,7 +128,12 @@ La URL queda `https://percha-preview.<subdominio>.workers.dev`. Ábrela en Safar
 **Agregar a pantalla de inicio**.
 
 Los datos de la app quedan atados a la dirección desde la que se instala. La app del regalo se
-instala desde la URL de producción definitiva, que no debe cambiar después (research R-8).
+instala desde la URL de producción definitiva, **https://percha.percha-spike-recorte.workers.dev**,
+que no debe cambiar después (research R-8). No cambies el subdominio `percha-spike-recorte` de la
+cuenta de Cloudflare ni el nombre del Worker `percha`: la persona perdería su clóset.
+
+Para llevarle una versión nueva, primero pruébala con `npm run deploy:preview` y después publícala
+con `npm run deploy:produccion`. La app instalada avisa en Ajustes que hay una versión nueva.
 
 ### Túnel de desarrollo
 
