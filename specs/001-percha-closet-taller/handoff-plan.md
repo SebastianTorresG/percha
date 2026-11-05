@@ -72,7 +72,8 @@ En la nueva sesión, abierta en `D:\App-Closet-Sofi`, pide algo como:
   después publicar en producción.
 - La guía para quien recibe la app (misiones cortas, pensada para déficit de atención) está
   publicada como artifact: https://claude.ai/artifact/CVGRWmQ78ATGq23HNms85n. Usa los respaldos
-  de `docs/respaldos-de-prueba/`. T163 (`docs/guia-instalacion.md`) sigue pendiente.
+  de `docs/respaldos-de-prueba/`. T163 hecha: la misma guía en `docs/guia-instalacion.md` y el código
+  del artifact en `docs/guia-misiones.html` (para volver a publicarlo con la URL de arriba).
 - Las pruebas de punta a punta no corren en el PC con Arch Linux: el WebKit de Playwright pide
   librerías del sistema con `sudo`. Se corrieron desde Windows (306 de 306 sobre `dc74ca9`).
 - Falta con el dueño: instalar desde la URL definitiva en el iPhone (resto de T166).

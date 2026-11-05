@@ -63,6 +63,12 @@ botón **Respaldar**.
 **Ajustes → Espacio** muestra cuánto ocupa Percha, cuántas prendas, outfits y maniquíes hay, y si
 iOS protege el almacenamiento para que no lo borre solo.
 
+### Guía para quien recibe el regalo
+
+[`docs/guia-instalacion.md`](docs/guia-instalacion.md): instalar, conocer la app y hacer el
+respaldo en misiones cortas. La versión interactiva es
+https://claude.ai/artifact/CVGRWmQ78ATGq23HNms85n.
+
 ### Probarla a fondo
 
 [`docs/pruebas-intensivas.md`](docs/pruebas-intensivas.md) tiene el plan de pruebas manuales:
