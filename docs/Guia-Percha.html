@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Percha: primeras misiones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Jost:wght@400;500&family=Bodoni+Moda:ital,wght@0,400;1,400&family=Archivo:wght@400;500&display=swap">
+<style>
+/* Layout: una sola columna angosta, como la pantalla del iPhone; una misión abierta a la vez. */
+:root {
+  --bg: #f4ebe6; --surface: #fbf6f3; --chip: #ead9d1; --ink: #3a2a25; --muted: #85706a;
+  --line: #e6d6ce; --accent: #b9776a; --on-accent: #ffffff; --stitch: #b9776a; --ok: #5f7d5a;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; --serif-w: 500;
+  --sans: 'Jost', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f0e0d; --surface: #181716; --chip: #262422; --ink: #f2efe9; --muted: #9a948b;
+  --line: #2a2826; --accent: #f2efe9; --on-accent: #0f0e0d; --stitch: #bdb7ae; --ok: #9fc196;
+  --serif: 'Bodoni Moda', Didot, Georgia, serif; --serif-w: 400;
+  --sans: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f0e0d; --surface: #181716; --chip: #262422; --ink: #f2efe9; --muted: #9a948b;
+  --line: #2a2826; --accent: #f2efe9; --on-accent: #0f0e0d; --stitch: #bdb7ae; --ok: #9fc196;
+  --serif: 'Bodoni Moda', Didot, Georgia, serif; --serif-w: 400;
+  --sans: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.5; }
+.envoltura { max-width: 34rem; margin: 0 auto; padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 28px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: var(--serif-w); text-wrap: balance; margin: 0; line-height: 1.1; }
+h1 { font-size: 3rem; }
+h1 em { font-style: italic; color: var(--accent); }
+h2 { font-size: 1.9rem; }
+h3 { font-size: 1.45rem; }
+p { margin: 0; }
+.meta { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.suave { color: var(--muted); }
+
+.portada { display: flex; flex-direction: column; gap: 14px; }
+.portada p { max-width: 32rem; }
+
+/* Etiqueta con costura: el detalle de taller de costura */
+.etiqueta { border: 1.5px dashed var(--stitch); border-radius: 18px; padding: 18px 20px; background: var(--surface);
+  display: flex; flex-direction: column; gap: 10px; }
+.etiqueta ul { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; }
+
+/* Progreso */
+.progreso { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
+  padding-block: 10px; display: flex; flex-direction: column; gap: 8px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.progreso-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.progreso-fila strong { font-family: var(--serif); font-weight: var(--serif-w); font-size: 1.35rem; }
+.cinta { height: 12px; border-radius: 6px; background: var(--chip); overflow: hidden; }
+.cinta span { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 6px; transition: width .4s ease; }
+
+/* Misiones */
+.misiones { display: flex; flex-direction: column; gap: 12px; list-style: none; margin: 0; padding: 0; }
+.mision { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+.mision.hecha { opacity: .72; }
+.mision-cabeza { width: 100%; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 14px;
+  padding: 14px 16px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; min-height: 64px; }
+.mision-cabeza:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ficha { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--chip);
+  font-family: var(--serif); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.hecha .ficha { background: var(--ok); color: var(--bg); }
+.mision-titulo { display: flex; flex-direction: column; min-width: 0; }
+.mision-titulo b { font-weight: 500; font-size: 1.05rem; }
+.tiempo { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+.mision-cuerpo { padding: 0 18px 20px 18px; display: flex; flex-direction: column; gap: 16px; }
+.para-que { font-family: var(--serif); font-style: italic; font-size: 1.25rem; line-height: 1.3; }
+.pasos { margin: 0; padding: 0; list-style: none; counter-reset: paso; display: flex; flex-direction: column; gap: 10px; }
+.pasos li { counter-increment: paso; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
+.pasos li::before { content: counter(paso); width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--stitch);
+  display: grid; place-items: center; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.boton-app { display: inline-block; padding: 1px 8px; border-radius: 8px; background: var(--chip); font-weight: 500; white-space: nowrap; }
+.reto { background: var(--chip); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+.reto .meta { color: var(--ink); opacity: .75; }
+.listo { border-left: 3px solid var(--ok); padding-left: 12px; }
+.acciones { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { min-height: 48px; padding: 0 22px; border-radius: 26px; border: 0; font: inherit; font-weight: 500; cursor: pointer; }
+.btn-principal { background: var(--accent); color: var(--on-accent); }
+.btn-texto { background: none; color: var(--muted); text-decoration: underline; padding: 0 8px; }
+.enlace { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.enlace code { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; background: var(--bg); border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px 10px; overflow-wrap: anywhere; min-width: 0; flex: 1 1 14rem; }
+
+/* Final */
+.medalla { text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center;
+  border: 1.5px dashed var(--stitch); border-radius: 22px; padding: 28px 20px; background: var(--surface); }
+.medalla .grande { font-family: var(--serif); font-size: 2.4rem; }
+
+.ayuda { display: flex; flex-direction: column; gap: 10px; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px; }
+summary { cursor: pointer; font-weight: 500; min-height: 32px; display: flex; align-items: center; }
+details p { margin-top: 8px; }
+
+.pronto { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 0; }
+.pronto li { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.pronto b { display: block; font-weight: 500; }
+@media (max-width: 380px) { .pronto { grid-template-columns: 1fr; } h1 { font-size: 2.5rem; } }
+
+.sin-js .progreso, .sin-js .acciones, .sin-js #confeti { display: none; }
+.sin-js .mision-cabeza { cursor: default; }
+#confeti { position: fixed; inset: 0; pointer-events: none; z-index: 20; width: 100%; height: 100%; }
+@media (prefers-reduced-motion: reduce) { .cinta span { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="sin-js" id="raiz">
+<canvas id="confeti" aria-hidden="true"></canvas>
+
+<div class="envoltura">
+  <header class="portada">
+    <p class="meta">Un regalo para tu iPhone</p>
+    <h1>Bienvenida a <em>Percha</em></h1>
+    <p>Percha es tu clóset digital y tu taller de costura. Esta guía son misiones cortas. Haz una, marca <b>¡Hecho!</b> y pasa a la siguiente. Puedes parar cuando quieras: la página recuerda dónde ibas.</p>
+  </header>
+
+  <section class="etiqueta" aria-labelledby="t-reglas">
+    <h2 id="t-reglas" style="font-size:1.5rem">Tres reglas de oro</h2>
+    <ul>
+      <li>Abre Percha <b>siempre desde su ícono</b>, nunca desde una pestaña de Safari.</li>
+      <li>Todo se guarda <b>solo en tu iPhone</b>. Nadie más ve tus fotos.</li>
+      <li>Por eso, <b>haz un respaldo cada 2 semanas</b>. La app te avisa si se te olvida.</li>
+    </ul>
+  </section>
+
+  <div class="progreso" aria-live="polite">
+    <div class="progreso-fila">
+      <strong id="progreso-texto">0 de 9 misiones</strong>
+      <span class="suave" id="progreso-tiempo">unos 15 minutos en total</span>
+    </div>
+    <div class="cinta"><span id="cinta"></span></div>
+  </div>
+
+  <ol class="misiones" id="misiones">
+
+    <li class="mision" data-id="instalar">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">1</span>
+        <span class="mision-titulo"><b>Llévala a tu pantalla</b><span class="suave">Instalar la app</span></span>
+        <span class="tiempo">2 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Percha no está en la App Store. Se instala desde Safari, como un atajo que se abre igual que una app.</p>
+        <div class="enlace">
+          <code id="url-app">https://percha.percha-spike-recorte.workers.dev</code>
+          <button class="btn btn-texto" type="button" id="copiar">Copiar</button>
+        </div>
+        <ol class="pasos">
+          <li><span>Abre ese enlace en <b>Safari</b>. Si te llegó por WhatsApp, toca los tres puntos y elige <b>Abrir en Safari</b>.</span></li>
+          <li><span>Toca <span class="boton-app">Compartir</span>, el cuadrado con la flecha hacia arriba.</span></li>
+          <li><span>Baja y elige <span class="boton-app">Agregar a pantalla de inicio</span>, luego <span class="boton-app">Agregar</span>.</span></li>
+          <li><span>Busca el ícono nuevo de Percha y ábrelo.</span></li>
+        </ol>
+        <div class="reto"><span class="meta">Reto extra</span><span>Busca el mejor lugar para el ícono. ¿Al lado de tus fotos? ¿En la primera página?</span></div>
+        <p class="listo">Ya está cuando Percha se abre a pantalla completa, sin la barra de Safari.</p>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="paseo">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">2</span>
+        <span class="mision-titulo"><b>Paseo por la casa</b><span class="suave">Conocer las pestañas</span></span>
+        <span class="tiempo">1 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Abajo hay una barra con cuatro pestañas y un botón + en el centro.</p>
+        <ol class="pasos">
+          <li><span>Toca <span class="boton-app">Hoy</span>, <span class="boton-app">Clóset</span>, <span class="boton-app">Taller</span> y <span class="boton-app">Outfits</span>, una por una.</span></li>
+          <li><span>Toca el <span class="boton-app">+</span> y vuelve con la flecha <span class="boton-app">‹</span> de arriba a la izquierda.</span></li>
+        </ol>
+        <div class="reto"><span class="meta">Tranqui</span><span>Varias pantallas se ven vacías. Es normal: esas partes todavía se están cosiendo y van a ir llegando solas.</span></div>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="disfraz">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">3</span>
+        <span class="mision-titulo"><b>Cambio de vestuario</b><span class="suave">Modo claro y oscuro</span></span>
+        <span class="tiempo">1 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Percha tiene dos looks: “Boutique cálida” de día y “Galería oscura” de noche.</p>
+        <ol class="pasos">
+          <li><span>Con Percha abierta, baja el Centro de control desde la esquina de arriba a la derecha.</span></li>
+          <li><span>Mantén presionado el control de brillo y toca <span class="boton-app">Modo oscuro</span>.</span></li>
+          <li><span>Vuelve a Percha y mira cómo cambió todo, hasta las letras.</span></li>
+        </ol>
+        <div class="reto"><span class="meta">Reto extra</span><span>Cámbialo tres veces seguidas. ¿Cuál te gusta más?</span></div>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="avion">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">4</span>
+        <span class="mision-titulo"><b>Viaje sin internet</b><span class="suave">Probar sin conexión</span></span>
+        <span class="tiempo">1 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Percha funciona sin internet, en un avión o en un probador sin señal.</p>
+        <ol class="pasos">
+          <li><span>Cierra Percha del todo: desliza hacia arriba desde abajo y sácala de la lista.</span></li>
+          <li><span>Activa el <span class="boton-app">Modo avión</span>.</span></li>
+          <li><span>Abre Percha desde el ícono. Pasea por las pestañas.</span></li>
+          <li><span>Apaga el modo avión.</span></li>
+        </ol>
+        <p class="listo">Ya está si se abrió normal, con sus letras bonitas.</p>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="cajon">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">5</span>
+        <span class="mision-titulo"><b>El cajón secreto</b><span class="suave">Encontrar el menú</span></span>
+        <span class="tiempo">30 s</span>
+      </button>
+      <div class="mision-cuerpo">
+        <ol class="pasos">
+          <li><span>Ve a <span class="boton-app">Hoy</span> y toca <span class="boton-app">⋯</span> arriba a la derecha.</span></li>
+          <li><span>Se abre un cajón con <b>Mis maniquíes</b>, <b>Mis medidas</b> y <b>Ajustes y respaldo</b>.</span></li>
+          <li><span>Entra a <span class="boton-app">Ajustes y respaldo</span>. Aquí pasan las siguientes misiones.</span></li>
+        </ol>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="mentira">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">6</span>
+        <span class="mision-titulo"><b>Clóset de mentira</b><span class="suave">Cargar un respaldo de prueba</span></span>
+        <span class="tiempo">2 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Te mandaron unos archivos de práctica. Traen un clóset falso, con cuadritos de colores en vez de ropa.</p>
+        <ol class="pasos">
+          <li><span>Guarda los archivos <b>Percha-respaldo-….zip</b> en la app <b>Archivos</b> (ábrelos, toca Compartir y luego <span class="boton-app">Guardar en Archivos</span>).</span></li>
+          <li><span>En Ajustes, toca <span class="boton-app">Importar</span>.</span></li>
+          <li><span>Elige <b>Percha-respaldo-2026-10-28.zip</b>, el chiquito.</span></li>
+          <li><span>Baja hasta <b>Espacio</b>.</span></li>
+        </ol>
+        <p class="listo">Ya está si dice <b>3 prendas · 1 outfit · 1 maniquí</b>.</p>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="tiempo">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">7</span>
+        <span class="mision-titulo"><b>Máquina del tiempo</b><span class="suave">Reemplazar y deshacer</span></span>
+        <span class="tiempo">3 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Percha nunca borra nada sin guardar antes una copia. Vamos a comprobarlo.</p>
+        <ol class="pasos">
+          <li><span>Toca <span class="boton-app">Importar</span> y elige <b>Percha-respaldo-2026-10-01.zip</b>, el grande.</span></li>
+          <li><span>Te pregunta si quieres reemplazar todo. Toca <span class="boton-app">Reemplazar todo</span>.</span></li>
+          <li><span>Mira Espacio: ahora hay <b>20 prendas</b>.</span></li>
+          <li><span>Ve a <span class="boton-app">Hoy</span>. Aparece un aviso de que tu respaldo es viejo. Así se ve cuando se te olvida respaldar.</span></li>
+          <li><span>Vuelve a Ajustes y toca <span class="boton-app">Restaurar el respaldo automático</span>, luego <span class="boton-app">Restaurar</span>.</span></li>
+        </ol>
+        <p class="listo">Ya está si volviste a <b>3 prendas</b>. Viajaste al pasado.</p>
+        <div class="reto"><span class="meta">Reto extra</span><span>Restaura otra vez. ¿Vuelven las 20? Deshacer también se puede deshacer.</span></div>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="trampa">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">8</span>
+        <span class="mision-titulo"><b>Intenta romperla</b><span class="suave">El archivo trampa</span></span>
+        <span class="tiempo">1 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Uno de los archivos está dañado a propósito. Percha tiene que darse cuenta.</p>
+        <ol class="pasos">
+          <li><span>Toca <span class="boton-app">Importar</span> y elige <b>Percha-respaldo-danado.zip</b>.</span></li>
+          <li><span>Lee el mensaje.</span></li>
+        </ol>
+        <p class="listo">Ya está si dice que el respaldo está dañado y que tus datos no cambiaron. Ganó Percha.</p>
+        <div class="reto"><span class="meta">Reto extra</span><span>Prueba también con <b>Percha-respaldo-version-nueva.zip</b>. ¿Qué te dice?</span></div>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+
+    <li class="mision" data-id="respaldo">
+      <button class="mision-cabeza" type="button" aria-expanded="false">
+        <span class="ficha">9</span>
+        <span class="mision-titulo"><b>Tu primer respaldo</b><span class="suave">La misión más importante</span></span>
+        <span class="tiempo">2 min</span>
+      </button>
+      <div class="mision-cuerpo">
+        <p class="para-que">Si el iPhone se pierde, el respaldo es la única copia de tu clóset.</p>
+        <ol class="pasos">
+          <li><span>En Ajustes, toca <span class="boton-app">Exportar</span>.</span></li>
+          <li><span>En la hoja que sale, elige <span class="boton-app">Guardar en Archivos</span> y guárdalo en <b>iCloud Drive</b>.</span></li>
+          <li><span>Si en vez de la hoja aparece <span class="boton-app">Guardar respaldo</span>, tócalo. El archivo ya está listo.</span></li>
+        </ol>
+        <p class="listo">Ya está si Ajustes dice <b>Último respaldo</b> con la fecha de hoy.</p>
+        <div class="reto"><span class="meta">Hábito</span><span>Pon una alarma cada dos domingos que diga “Respaldar Percha”. Toma un minuto.</span></div>
+        <div class="acciones"><button class="btn btn-principal hecho" type="button">¡Hecho!</button></div>
+      </div>
+    </li>
+  </ol>
+
+  <section class="medalla" id="medalla" hidden>
+    <span class="grande">Lo lograste</span>
+    <p>Ya conoces Percha mejor que casi nadie. Cuando llegue una función nueva, Ajustes te dirá <b>Hay una versión nueva de Percha</b> con un botón <b>Actualizar</b>.</p>
+    <button class="btn btn-texto" type="button" id="reiniciar">Empezar las misiones otra vez</button>
+  </section>
+
+  <section class="ayuda" aria-labelledby="t-ayuda">
+    <h2 id="t-ayuda">Si algo sale raro</h2>
+    <details><summary>No me aparece “Agregar a pantalla de inicio”</summary>
+      <p>Seguro estás en otro navegador o dentro de WhatsApp. Copia el enlace y pégalo en Safari.</p></details>
+    <details><summary>La app no guarda o me dice algo de las fotos</summary>
+      <p>Revisa que la abriste desde el ícono y no desde Safari. En una pestaña privada no puede guardar nada.</p></details>
+    <details><summary>Quiero borrar el clóset de mentira</summary>
+      <p>Avísale a quien te regaló la app. Te ayuda a dejarla limpia antes de que empieces con tu ropa de verdad.</p></details>
+    <details><summary>Me perdí en una pantalla</summary>
+      <p>La flecha <b>‹</b> de arriba a la izquierda siempre te regresa.</p></details>
+  </section>
+
+  <section class="ayuda" aria-labelledby="t-pronto">
+    <h2 id="t-pronto">Lo que viene</h2>
+    <p class="suave">Estas partes se están cosiendo ahora mismo.</p>
+    <ul class="pronto">
+      <li><b>Agregar prendas</b><span class="suave">Foto y recorte automático</span></li>
+      <li><b>Tu clóset</b><span class="suave">Ver y filtrar tu ropa</span></li>
+      <li><b>Maniquíes</b><span class="suave">Tu silueta para probarte ropa</span></li>
+      <li><b>Outfits</b><span class="suave">Armarlos y planear la semana</span></li>
+      <li><b>Taller</b><span class="suave">De prenda planeada a terminada</span></li>
+      <li><b>Mis medidas</b><span class="suave">Siempre a mano para coser</span></li>
+    </ul>
+  </section>
+</div>
+
+</div>
+<script>
+(function () {
+  document.getElementById('raiz').classList.remove('sin-js');
+  var CLAVE = 'percha-guia-hechas';
+  var misiones = Array.prototype.slice.call(document.querySelectorAll('.mision'));
+  var total = misiones.length;
+  var minutos = { instalar: 2, paseo: 1, disfraz: 1, avion: 1, cajon: 0.5, mentira: 2, tiempo: 3, trampa: 1, respaldo: 2 };
+  var hechas = {};
+  try { hechas = JSON.parse(localStorage.getItem(CLAVE) || '{}') || {}; } catch (e) { hechas = {}; }
+
+  function guardar() { try { localStorage.setItem(CLAVE, JSON.stringify(hechas)); } catch (e) {} }
+
+  function abrir(m, enfocar) {
+    misiones.forEach(function (otra) {
+      var abierta = otra === m;
+      otra.querySelector('.mision-cuerpo').hidden = !abierta;
+      otra.querySelector('.mision-cabeza').setAttribute('aria-expanded', abierta ? 'true' : 'false');
+    });
+    if (m && enfocar) m.scrollIntoView({ behavior: reducido() ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function reducido() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+  function pintar() {
+    var n = 0, resta = 0;
+    misiones.forEach(function (m) {
+      var id = m.dataset.id, h = !!hechas[id];
+      m.classList.toggle('hecha', h);
+      m.querySelector('.ficha').textContent = h ? '✓' : String(misiones.indexOf(m) + 1);
+      m.querySelector('.hecho').textContent = h ? 'Hecha' : '¡Hecho!';
+      if (h) n++; else resta += minutos[id] || 1;
+    });
+    document.getElementById('progreso-texto').textContent = n + ' de ' + total + ' misiones';
+    document.getElementById('progreso-tiempo').textContent = n === total ? 'todas listas' : 'quedan unos ' + Math.ceil(resta) + ' min';
+    document.getElementById('cinta').style.width = (n / total * 100) + '%';
+    document.getElementById('medalla').hidden = n !== total;
+    return n;
+  }
+
+  misiones.forEach(function (m, i) {
+    m.querySelector('.mision-cabeza').addEventListener('click', function () {
+      var yaAbierta = !m.querySelector('.mision-cuerpo').hidden;
+      abrir(yaAbierta ? null : m, false);
+    });
+    m.querySelector('.hecho').addEventListener('click', function () {
+      hechas[m.dataset.id] = true; guardar();
+      var n = pintar();
+      var siguiente = misiones.slice(i + 1).concat(misiones.slice(0, i)).filter(function (x) { return !hechas[x.dataset.id]; })[0];
+      if (siguiente) { abrir(siguiente, true); chispa(18); }
+      else { abrir(null, false); document.getElementById('medalla').scrollIntoView({ behavior: reducido() ? 'auto' : 'smooth', block: 'center' }); chispa(120); }
+    });
+  });
+
+  document.getElementById('reiniciar').addEventListener('click', function () {
+    hechas = {}; guardar(); pintar(); abrir(misiones[0], true);
+  });
+
+  document.getElementById('copiar').addEventListener('click', function () {
+    var boton = this, texto = document.getElementById('url-app').textContent;
+    function seleccionar() { var r = document.createRange(); r.selectNodeContents(document.getElementById('url-app')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); boton.textContent = 'Selecciónalo y copia'; }
+    try { navigator.clipboard.writeText(texto).then(function () { boton.textContent = 'Copiado'; }, seleccionar); } catch (e) { seleccionar(); }
+  });
+
+  pintar();
+  var primera = misiones.filter(function (x) { return !hechas[x.dataset.id]; })[0];
+  abrir(primera || null, false);
+
+  // Confeti de alfileres y retazos: corto y solo si no se pidió menos movimiento.
+  var lienzo = document.getElementById('confeti'), ctx = lienzo.getContext('2d'), piezas = [], corriendo = false;
+  function chispa(cantidad) {
+    if (reducido() || !ctx) return;
+    var dpr = window.devicePixelRatio || 1;
+    lienzo.width = innerWidth * dpr; lienzo.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var css = getComputedStyle(document.documentElement);
+    var colores = [css.getPropertyValue('--accent'), css.getPropertyValue('--stitch'), css.getPropertyValue('--ok'), css.getPropertyValue('--chip')];
+    for (var k = 0; k < cantidad; k++) {
+      piezas.push({ x: innerWidth / 2 + (Math.random() - .5) * 120, y: innerHeight * .35, vx: (Math.random() - .5) * 9, vy: -Math.random() * 9 - 3,
+        r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3, w: 6 + Math.random() * 6, h: 3 + Math.random() * 4, c: colores[k % colores.length].trim(), vida: 90 + Math.random() * 40 });
+    }
+    if (!corriendo) { corriendo = true; requestAnimationFrame(paso); }
+  }
+  function paso() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    piezas = piezas.filter(function (p) { return p.vida > 0; });
+    piezas.forEach(function (p) {
+      p.vy += .25; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vida--;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.globalAlpha = Math.min(1, p.vida / 30);
+      ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    });
+    if (piezas.length) requestAnimationFrame(paso); else { corriendo = false; ctx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+})();
+</script>
+</body>
+</html>
