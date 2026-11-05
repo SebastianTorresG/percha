@@ -177,7 +177,7 @@ Al dueño ya se le explicó qué es un spike.
 - Presentar los trade-offs reales con evidencia y dejar que el dueño decida.
 - No dejar bugs conocidos como "fuera de alcance".
 - Documentar lo verificado en los artefactos de Spec Kit.
-- El código está en el repositorio privado https://github.com/SebastianTorresG/percha (rama `main`).
+- El código está en el repositorio público https://github.com/SebastianTorresG/percha (rama `main`).
 
 ## US1 Respaldo (2026-10-26), detenido a pedido del dueño para ahorrar créditos
 
